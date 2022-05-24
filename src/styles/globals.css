@@ -3,6 +3,13 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Open Sans", sans-serif;
+  background-image: url("/images/battle_brothers_background_2.png") !important;
+
+  height: 100%;
+  width: 100%;
+
+  background-position: center;
+  background-size: cover;
 }
 
 a {
