@@ -7,12 +7,20 @@ import "../firebase/clientApp";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  
   return (
     <RecoilRoot>
       <ChakraProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <div
+          style={{
+            backgroundImage: `url("https://via.placeholder.com/500")`,
+          }}
+        >
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </div>
       </ChakraProvider>
     </RecoilRoot>
   );
