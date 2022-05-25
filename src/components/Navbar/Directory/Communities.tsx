@@ -6,7 +6,7 @@ import { GrAdd } from "react-icons/gr";
 import { useRecoilValue } from "recoil";
 import { communityState } from "../../../atoms/communitiesAtom";
 import { auth } from "../../../firebase/clientApp";
-import CreateCommunityModal from "../../Modal/CreateCommunity";
+import CreateCommunityModal from "../../Modal/CreateCommunity/CreateCommunityModal";
 import MenuListItem from "./MenuListItem";
 
 type CommunitiesProps = {

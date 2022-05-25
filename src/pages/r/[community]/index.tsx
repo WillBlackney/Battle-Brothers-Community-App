@@ -7,7 +7,7 @@ import safeJsonStringify from "safe-json-stringify";
 import { Community, communityState } from "../../../atoms/communitiesAtom";
 import About from "../../../components/Community/About";
 import CommunityNotFound from "../../../components/Community/CommunityNotFound";
-import CreatePostLink from "../../../components/Community/CreatePostLink";
+import BroSearchFilterPanel from "../../../components/Community/BroSearchFilterPanel";
 import Header from "../../../components/Community/Header";
 import PageContentLayout from "../../../components/Layout/PageContent";
 import Posts from "../../../components/Post/Posts";
@@ -57,7 +57,7 @@ const CommunityPage: NextPage<CommunityPageProps> = ({ communityData }) => {
       <PageContentLayout>
         {/* Left Content */}
         <>
-          <CreatePostLink />
+          <BroSearchFilterPanel />
           <Posts
             communityData={communityData}
             userId={user?.uid}

@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import React from "react";
 import useDirectory from "../../hooks/useDirectory";
 
-type CreatePostProps = {};
+type BroSearchFilterPanelProps = {};
 
-const CreatePostLink: React.FC<CreatePostProps> = () => {
+const BroSearchFilterPanel: React.FC<BroSearchFilterPanelProps> = () => {
   const router = useRouter();
   const { toggleMenuOpen } = useDirectory();
   const onClick = () => {
@@ -77,4 +77,4 @@ const CreatePostLink: React.FC<CreatePostProps> = () => {
     </Flex>
   );
 };
-export default CreatePostLink;
+export default BroSearchFilterPanel;

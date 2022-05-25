@@ -25,7 +25,8 @@
     "react-firebase-hooks": "^5.0.3",
     "react-icons": "^4.3.1",
     "recoil": "^0.6.1",
-    "safe-json-stringify": "^1.2.0"
+    "safe-json-stringify": "^1.2.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/node": "17.0.21",

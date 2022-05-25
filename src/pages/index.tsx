@@ -17,7 +17,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilValue } from "recoil";
 import { communityState } from "../atoms/communitiesAtom";
 import { Post, PostVote } from "../atoms/postsAtom";
-import CreatePostLink from "../components/Community/CreatePostLink";
+import BroSearchFilterPanel from "../components/Community/BroSearchFilterPanel";
 import Recommendations from "../components/Community/Recommendations";
 import PageContentLayout from "../components/Layout/PageContent";
 import PostLoader from "../components/Post/Loader";
@@ -199,7 +199,7 @@ const Home: NextPage = () => {
   return (
     <PageContentLayout>
       <>
-        <CreatePostLink />
+        <BroSearchFilterPanel />
         {loading ? (
           <PostLoader />
         ) : (

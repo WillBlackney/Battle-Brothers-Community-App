@@ -1,10 +1,12 @@
 import { Flex, Image, Text, Icon } from "@chakra-ui/react";
 import { Search2Icon, CheckCircleIcon } from "@chakra-ui/icons";
 import React from "react";
+import Router from "next/router";
 
 const BroSearchTab: React.FC = () => {
   return (
     <Flex
+      onClick={() => Router.push("/")}
       height="44px"
       width="150px"
       marginLeft={5}
