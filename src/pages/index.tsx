@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Stack } from "@chakra-ui/react";
 import {
   collection,
@@ -26,8 +26,38 @@ import { auth, firestore } from "../firebase/clientApp";
 import usePosts from "../hooks/usePosts";
 import Premium from "../components/Community/Premium";
 import PersonalHome from "../components/Community/PersonalHome";
+import BroPostFeedContainer from "../components/Community/BroPostFeedContainer";
 
 const Home: NextPage = () => {
+  // NEW
+  const [newLoading, setNewLoading] = useState(false);
+
+  useEffect(() => {
+    getBroPosts();
+  }, []);
+
+  const getBroPosts = async () => {
+    console.log("Getting bro posts for feed");
+    setLoading(true);
+
+    try {
+      const postQuery = query(
+        collection(firestore, "brobuilds"),
+        orderBy("createdAt", "desc"),
+        limit(10)
+      );
+
+      const postDocs = await getDocs(postQuery);
+      const posts = postDocs.docs.map(doc =>({id: doc.id, ...doc.data()}));
+      
+    } catch (error) {
+      console.log("getBroPosts error: ", error);
+    }
+
+    setLoading(false);
+  };
+
+  // OLD
   const [user, loadingUser] = useAuthState(auth);
   const {
     postStateValue,
@@ -200,6 +230,7 @@ const Home: NextPage = () => {
     <PageContentLayout>
       <>
         <BroSearchFilterPanel />
+        <BroPostFeedContainer></BroPostFeedContainer>
         {loading ? (
           <PostLoader />
         ) : (
