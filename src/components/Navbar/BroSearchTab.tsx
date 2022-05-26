@@ -14,7 +14,7 @@ const BroSearchTab: React.FC = () => {
       textAlign="start"
     >
       <Search2Icon fontSize="15px" ml={1} mr={2}></Search2Icon>
-      <Text width="100%">Bro Search</Text>
+      <Text width="100%">Search Bros</Text>
     </Flex>
   );
 };

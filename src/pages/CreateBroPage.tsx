@@ -84,6 +84,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
       border="px solid"
       borderColor="gray.300"
       p={2}
+      m={4}
     >
       <Flex
         align="center"

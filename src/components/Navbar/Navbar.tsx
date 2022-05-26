@@ -37,14 +37,12 @@ const Navbar: React.FC = () => {
         cursor="pointer"
       >
         <Image src="/images/battle_brothers_logo_1.png" height="30px" mr={4} />
-        <Text fontWeight="600" mr={20} 
-        onClick={() => Router.push("/")}>
+        <Text fontWeight="600" mr={20} onClick={() => Router.push("/")}>
           Battle Brothers Tavern
         </Text>
         <BroSearchTab></BroSearchTab>
         <CreateBroTab></CreateBroTab>
       </Flex>
-      <Directory></Directory>
       {/*user && <Directory />*/}
       {/*<SearchInput user={user as User} />*/}
       <RightContent user={user as User} />
