@@ -6,17 +6,18 @@ import { BroBuild } from "../../atoms/broBuildsAtom";
 import { auth, firestore } from "../../firebase/clientApp";
 import useBroBuilds from "../../hooks/useBroBuilds";
 import BroPostOverviewPanel from "./BroPostOverviewPanel";
+
 type BroPostFeedContainerProps = {
   // to do: needs to be a collection of bros, not 1
-  brobuildData: BroBuild;
-  userId?: string;
+  //brobuildData: BroBuild;
+  //userId?: string;
 };
 
 const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
   const [user] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
   const {
-    broBuildsStatevalue,
+    broBuildsStateValue,
     setBroBuildsStateValue,
     onVoteBroBuild,
     onSelectBroBuild,
@@ -28,16 +29,14 @@ const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
       const postDocs = await getDocs(postQuery);
       const posts = postDocs.docs.map((doc) => ({
         uid: doc.id,
-        ...doc.data,
+        ...doc.data(),
       }));
 
-      console.log('posts: ', posts)
+      console.log("raw posts: ", posts);
       setBroBuildsStateValue((prev) => ({
         ...prev,
         allBroBuilds: posts as BroBuild[],
       }));
-
-      console.log("bro builds: ", posts);
     } catch (error: any) {
       console.log("getBroBuildPosts error: ", error.message);
     }
@@ -47,12 +46,13 @@ const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
     getBroBuildPosts();
   }, []);
   return (
-    <Stack>
-      {broBuildsStatevalue.allBroBuilds.map((item) => (
+    <Stack pt={2}>
+      {broBuildsStateValue.allBroBuilds.map((item) => (
         <BroPostOverviewPanel
+          key={item.uid}
           broBuild={item}
           userIsCreator={user?.uid === item.creatorId}
-          userVoteValue={undefined}
+          userVoteValue={broBuildsStateValue.postVotes.find((vote) => vote.broBuildId === item.uid)?.voteValue}
           onVote={onVoteBroBuild}
           onSelect={onSelectBroBuild}
           onDelete={onDeleteBroBuild}

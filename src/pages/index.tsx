@@ -33,10 +33,10 @@ const Home: NextPage = () => {
   const [newLoading, setNewLoading] = useState(false);
 
   useEffect(() => {
-    getBroPosts();
+    buildHomeFeed();
   }, []);
 
-  const getBroPosts = async () => {
+  const buildHomeFeed = async () => {
     console.log("Getting bro posts for feed");
     setLoading(true);
 
@@ -230,30 +230,10 @@ const Home: NextPage = () => {
     <PageContentLayout>
       <>
         <BroSearchFilterPanel />
-        <BroPostFeedContainer></BroPostFeedContainer>
         {loading ? (
-          <PostLoader />
-        ) : (
-          <Stack>
-            {postStateValue.posts.map((post: Post, index) => (
-              <PostItem
-                key={post.id}
-                post={post}
-                postIdx={index}
-                onVote={onVote}
-                onDeletePost={onDeletePost}
-                userVoteValue={
-                  postStateValue.postVotes.find(
-                    (item) => item.postId === post.id
-                  )?.voteValue
-                }
-                userIsCreator={user?.uid === post.creatorId}
-                onSelectPost={onSelectPost}
-                homePage
-              />
-            ))}
-          </Stack>
-        )}
+          <PostLoader></PostLoader>
+        ) : <BroPostFeedContainer>
+        </BroPostFeedContainer>}
       </>
       <Stack spacing={5} position="sticky" top="14px">
         <Recommendations />

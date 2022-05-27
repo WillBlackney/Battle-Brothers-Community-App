@@ -6,17 +6,23 @@ export interface BroBuild {
   buildName: string;
   creatorId: string;
   createdAt?: Timestamp;
+  voteStatus: number;
+  numberOfComments: number;
+  currentUserVoteStatus?: {
+    id: string;
+    voteValue: number;
+  };
   // to do: perks, stats, etc etc
 }
 
 export type BroBuildVote = {
-  uid?: string;
-  postId: string;
+  id?: string;
+  broBuildId: string;
   voteValue: number;
 };
 
 interface BroBuildState {
-  selectedPost: BroBuild | null;
+  selectedBroBuild: BroBuild | null;
   allBroBuilds: BroBuild[];
   postVotes: BroBuildVote[];
   postsCache: {
@@ -26,7 +32,7 @@ interface BroBuildState {
 }
 
 export const defaultBroBuildState: BroBuildState = {
-  selectedPost: null,
+  selectedBroBuild: null,
   allBroBuilds: [],
   postVotes: [],
   postsCache: {},

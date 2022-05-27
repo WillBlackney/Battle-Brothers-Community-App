@@ -6,6 +6,7 @@ import { BroBuild } from "../../../atoms/broBuildsAtom";
 import safeJsonStringify from "safe-json-stringify";
 import { Flex } from "@chakra-ui/react";
 import BroPostPageNotFound from "../../../components/Community/BroPostPageNotFound";
+import PageContentLayout from "../../../components/Layout/PageContent";
 
 type BroPostPageProps = {
   broBuildData: BroBuild;
@@ -16,7 +17,11 @@ const BroPostPage: React.FC<BroPostPageProps> = ({ broBuildData }) => {
   if (!broBuildData) {
     return <BroPostPageNotFound></BroPostPageNotFound>;
   }
-  return <Flex bg="white">Bro Build Post Page for: {broBuildData.uid}</Flex>;
+  return (
+    <>
+      <Flex bg="white">Bro Build Post Page for: {broBuildData.uid}</Flex>);
+    </>
+  );
 };
 
 export async function getServerSideProps(context: GetServerSideProps) {
