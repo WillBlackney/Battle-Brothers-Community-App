@@ -20,16 +20,6 @@ const PageContentLayout: React.FC<PageContentLayoutProps> = ({
         >
           {children && children[0 as keyof typeof children]}
         </Flex>
-        {/* Right Content */}
-        {/*
-        <Box
-          display={{ base: "none", md: "flex" }}
-          flexDirection="column"
-          flexGrow={1}
-        >
-          {children && children[1 as keyof typeof children]}
-        </Box>
-        */}
       </Flex>
     </Flex>
   );

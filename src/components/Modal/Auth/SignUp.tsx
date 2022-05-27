@@ -46,15 +46,18 @@ const SignUp: React.FC<SignUpProps> = ({ toggleView }) => {
     }));
   };
 
-  const createUserDocument = async (user: User)=>{
-    await addDoc(collection(firestore, 'users'), JSON.parse(JSON.stringify(user)));
-  }
+  const createUserDocument = async (user: User) => {
+    await addDoc(
+      collection(firestore, "users"),
+      JSON.parse(JSON.stringify(user))
+    );
+  };
 
-  useEffect(()=>{
-    if(userCred){
-      createUserDocument(userCred.user)
+  useEffect(() => {
+    if (userCred) {
+      createUserDocument(userCred.user);
     }
-  }, [userCred])
+  }, [userCred]);
 
   return (
     <form onSubmit={onSubmit}>

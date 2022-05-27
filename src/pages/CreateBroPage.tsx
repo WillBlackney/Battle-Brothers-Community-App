@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 as uuidv4 } from "uuid";
+import PageContentLayout from "../components/Layout/PageContent";
 
 type CreateBroPageProps = {};
 
@@ -38,7 +39,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
       // Create the bro document in firestore
 
       const uniqueId = uuidv4();
-      console.log(uniqueId);
+      console.log("unique id generated: ", uniqueId);
       const broBuildsDocRef = doc(firestore, "brobuilds", uniqueId);
 
       await runTransaction(firestore, async (transaction) => {
@@ -75,26 +76,31 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
   };
 
   return (
+    // Main Container
     <Flex
-      direction="column"
       align="center"
+      justify="center"
+      direction="column"
       bg="white"
-      height="auto"
+      width={"90%"}
+      height="100%"
       borderRadius={4}
-      border="px solid"
-      borderColor="gray.300"
+      borderColor="red"
+      borderWidth="2px"
       p={2}
-      m={4}
+      m={5}
     >
+      {/* Name Row */}
       <Flex
         align="center"
-        bg="white"
-        height="60px"
-        p={2}
+        bg="gray.100"
+        borderRadius={4}
+        borderColor="red"
+        borderWidth="2px"
         width="100%"
-        borderColor="gray.300"
+        justify="center"
+        mb={4}
       >
-        {/*<Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />*/}
         <Input
           onChange={handleChange}
           placeholder="Build name..."
@@ -115,7 +121,134 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           borderColor="gray.200"
           height="40px"
           borderRadius={4}
-          width="100%"
+          width="30%"
+          color={charsRemaining === 0 ? "red" : "gray.500"}
+        />
+      </Flex>
+
+      {/* Perks Row */}
+      <Flex
+        align="center"
+        bg="gray.100"
+        borderRadius={4}
+        borderColor="red"
+        borderWidth="2px"
+        width="100%"
+        height="500px"
+        justify="center"
+        mb={4}
+      >
+        PERKS
+      </Flex>
+
+      {/* Stats + Avatar Row */}
+      <Flex
+        justifyContent="space-evenly"
+        bg="gray.100"
+        borderRadius={4}
+        borderColor="red"
+        borderWidth="2px"
+        width="100%"
+        height="300px"
+        justify="center"
+        align={"center"}
+        mb={4}
+      >
+        <Flex
+          align="center"
+          bg="white"
+          borderRadius={4}
+          borderColor="red"
+          borderWidth="2px"
+          width="30%"
+          height="90%"
+          justify="center"
+        >
+          Avatar
+        </Flex>
+        <Flex
+          align="center"
+          bg="white"
+          borderRadius={4}
+          borderColor="red"
+          borderWidth="2px"
+          width="30%"
+          height="90%"
+          justify="center"
+        >
+          Items
+        </Flex>
+        <Flex
+          align="center"
+          bg="white"
+          borderRadius={4}
+          borderColor="red"
+          borderWidth="2px"
+          width="30%"
+          height="90%"
+          justify="center"
+        >
+          Stats
+        </Flex>
+      </Flex>
+
+      {/* Description Row*/}
+      <Flex
+        align="center"
+        bg="gray.100"
+        borderRadius={4}
+        borderColor="red"
+        borderWidth="2px"
+        width="100%"
+        height="200px"
+        justify="center"
+        mb={4}
+      >
+        Description
+      </Flex>
+    </Flex>
+
+    /*
+    <Flex
+      direction="column"
+      bg="white"
+      width={'auto'}
+      height="auto"
+      borderRadius={4}
+      border="px solid"
+      borderColor="gray.300"
+      p={2}
+      m={4}
+    >
+      <Flex
+        align="center"
+        bg="white"
+        height="60px"
+        p={2}
+        width="100%"
+        borderColor="gray.300"
+      >
+        <Input
+          onChange={handleChange}
+          placeholder="Build name..."
+          fontSize="10pt"
+          _placeholder={{ color: "gray.500" }}
+          _hover={{
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          _focus={{
+            outline: "none",
+            bg: "white",
+            border: "1px solid",
+            borderColor: "blue.500",
+          }}
+          bg="gray.50"
+          borderColor="gray.200"
+          height="40px"
+          borderRadius={4}
+          width="50%"
           color={charsRemaining === 0 ? "red" : "gray.500"}
         />
       </Flex>
@@ -144,6 +277,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         {error}
       </Text>
     </Flex>
+    */
   );
 };
 export default CreateBroPage;
