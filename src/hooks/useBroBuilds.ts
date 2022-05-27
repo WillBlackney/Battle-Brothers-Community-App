@@ -1,22 +1,37 @@
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   query,
   writeBatch,
 } from "firebase/firestore";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { authModalState } from "../atoms/authModalAtom";
 import { BroBuild, broBuildState, BroBuildVote } from "../atoms/broBuildsAtom";
 import { auth, firestore, storage } from "../firebase/clientApp";
 
 const useBroBuilds = () => {
+  const setAuthModalState = useSetRecoilState(authModalState);
+  const router = useRouter();
   const [user] = useAuthState(auth);
   const [broBuildsStateValue, setBroBuildsStateValue] =
     useRecoilState(broBuildState);
 
-  const onVoteBroBuild = async (broBuild: BroBuild, vote: number) => {
+  const onVoteBroBuild = async (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    broBuild: BroBuild,
+    vote: number
+  ) => {
+    event.stopPropagation();
+
+    // if no logged in user, open sign in modal
+    if (!user?.uid) {
+      setAuthModalState({ open: true, view: "login" });
+    }
     try {
       const { voteStatus } = broBuild;
       const existingVote = broBuildsStateValue.postVotes.find(
@@ -95,6 +110,13 @@ const useBroBuilds = () => {
         postVotes: updatedBroBuildVotes,
       }));
 
+      if (broBuildsStateValue.selectedBroBuild) {
+        setBroBuildsStateValue((prev) => ({
+          ...prev,
+          selectedBroBuild: updatedBroBuild,
+        }));
+      }
+
       const postRef = doc(firestore, "broBuilds", broBuild.uid!);
       batch.update(postRef, { voteStatus: vote + voteChange });
 
@@ -102,9 +124,40 @@ const useBroBuilds = () => {
     } catch (error) {}
   };
 
-  const onSelectBroBuild = () => {};
+  const onSelectBroBuild = (broBuild: BroBuild) => {
+    setBroBuildsStateValue((prev) => ({
+      ...prev,
+      selectedBroBuild: broBuild,
+    }));
+    router.push(`BroPost/${broBuild.uid}`);
+  };
 
-  const onDeleteBroBuild = async () => {};
+  const onDeleteBroBuild = async (broBuild: BroBuild): Promise<boolean> => {
+    console.log("DELETING BRO BUILD: ", broBuild.uid);
+
+    try {
+      // delete post from posts collection
+      const postDocRef = doc(firestore, "brobuilds", broBuild.uid);
+      await deleteDoc(postDocRef);
+
+      // Update post state
+      setBroBuildsStateValue((prev) => ({
+        ...prev,
+        allBroBuilds: prev.allBroBuilds.filter(
+          (item) => item.uid !== broBuild.uid
+        ),
+      }));
+
+      /**
+       * Cloud Function will trigger on post delete
+       * to delete all comments with postId === post.id
+       */
+      return true;
+    } catch (error) {
+      console.log("THERE WAS AN ERROR", error);
+      return false;
+    }
+  };
 
   const getUserBroBuildVotes = async () => {
     const postVotesQuery = query(

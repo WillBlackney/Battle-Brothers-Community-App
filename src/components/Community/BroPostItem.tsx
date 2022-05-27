@@ -22,17 +22,22 @@ import moment from "moment";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsDot, BsChat } from "react-icons/bs";
 import { FaReddit } from "react-icons/fa";
+import router, { useRouter } from "next/router";
 
-type BroPostOverviewPanelProps = {
+type BroPostItemProps = {
   broBuild: BroBuild;
   userIsCreator: boolean;
   userVoteValue?: number;
-  onVote: (broBuild: BroBuild, vote: number) => void;
-  onDelete: () => {};
-  onSelect: () => void;
+  onVote: (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    broBuild: BroBuild,
+    vote: number
+  ) => void;
+  onDelete: (broBuild: BroBuild) => Promise<boolean>;
+  onSelect?: (broBuild: BroBuild) => void;
 };
 
-const BroPostOverviewPanel: React.FC<BroPostOverviewPanelProps> = ({
+const BroPostItem: React.FC<BroPostItemProps> = ({
   broBuild,
   userIsCreator,
   userVoteValue,
@@ -41,23 +46,48 @@ const BroPostOverviewPanel: React.FC<BroPostOverviewPanelProps> = ({
   onSelect,
 }) => {
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const singlePostView = !onSelect;
+  const router = useRouter();
+  const handleDelete = async (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    setLoadingDelete(true);
+    try {
+      const success = await onDelete(broBuild);
+      if (!success) throw new Error("Failed to delete bro build");
+
+      console.log("Bro build successfully deleted");
+
+      // Could proably move this logic to onDeletePost function
+      if (singlePostView && router) router.back();
+    } catch (error: any) {
+      console.log("Error deleting bro build", error.message);
+      /**
+       * Don't need to setLoading false if no error
+       * as item will be removed from DOM
+       */
+      setLoadingDelete(false);
+      // setError
+    }
+  };
   return (
     <Flex
       border="1px solid"
       bg="white"
-      borderColor="gray.300"
-      borderRadius={4}
-      cursor="pointer"
-      //_hover={{ borderColor: singlePostView ? "none" : "gray.500" }}
-      //onClick={() => onSelectPost && post && onSelectPost(post, postIdx!)}
+      borderColor={singlePostView ? "white" : "gray.300"}
+      borderRadius={singlePostView ? "4px 4px 0px 0px" : "4px"}
+      cursor={singlePostView ? "unset" : "pointer"}
+      onClick={() => onSelect && onSelect(broBuild)}
+      _hover={{ borderColor: singlePostView ? "none" : "gray.500" }}
     >
       <Flex
         direction="column"
         align="center"
-        bg="gray.100"
+        bg={singlePostView ? "none" : "gray.300"}
         p={2}
         width="40px"
-        borderRadius="3px 0px 0px 3px"
+        borderRadius={singlePostView ? "0" : "3px 0px 0px 3px"}
       >
         <Icon
           as={
@@ -66,7 +96,7 @@ const BroPostOverviewPanel: React.FC<BroPostOverviewPanelProps> = ({
           color={userVoteValue === 1 ? "brand.100" : "gray.400"}
           fontSize={22}
           cursor="pointer"
-          onClick={() => onVote(broBuild, 1)}
+          onClick={(event) => onVote(event, broBuild, 1)}
         />
         <Text fontSize="9pt" fontWeight={600}>
           {broBuild.voteStatus}
@@ -80,7 +110,7 @@ const BroPostOverviewPanel: React.FC<BroPostOverviewPanelProps> = ({
           color={userVoteValue === -1 ? "#4379FF" : "gray.400"}
           fontSize={22}
           cursor="pointer"
-          onClick={() => onVote(broBuild, -1)}
+          onClick={(event) => onVote(event, broBuild, -1)}
         />
       </Flex>
       <Flex direction="column" width="80%">
@@ -152,7 +182,7 @@ const BroPostOverviewPanel: React.FC<BroPostOverviewPanelProps> = ({
               borderRadius={4}
               _hover={{ bg: "gray.200" }}
               cursor="pointer"
-              //onClick={handleDelete}
+              onClick={handleDelete}
             >
               {loadingDelete ? (
                 <Spinner size="sm" />
@@ -172,4 +202,4 @@ const BroPostOverviewPanel: React.FC<BroPostOverviewPanelProps> = ({
     </Flex>
   );
 };
-export default BroPostOverviewPanel;
+export default BroPostItem;

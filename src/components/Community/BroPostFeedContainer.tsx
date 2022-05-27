@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { BroBuild } from "../../atoms/broBuildsAtom";
 import { auth, firestore } from "../../firebase/clientApp";
 import useBroBuilds from "../../hooks/useBroBuilds";
-import BroPostOverviewPanel from "./BroPostOverviewPanel";
+import BroPostItem from "./BroPostItem";
 
 type BroPostFeedContainerProps = {
   // to do: needs to be a collection of bros, not 1
@@ -48,15 +48,19 @@ const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
   return (
     <Stack pt={2}>
       {broBuildsStateValue.allBroBuilds.map((item) => (
-        <BroPostOverviewPanel
+        <BroPostItem
           key={item.uid}
           broBuild={item}
           userIsCreator={user?.uid === item.creatorId}
-          userVoteValue={broBuildsStateValue.postVotes.find((vote) => vote.broBuildId === item.uid)?.voteValue}
+          userVoteValue={
+            broBuildsStateValue.postVotes.find(
+              (vote) => vote.broBuildId === item.uid
+            )?.voteValue
+          }
           onVote={onVoteBroBuild}
           onSelect={onSelectBroBuild}
           onDelete={onDeleteBroBuild}
-        ></BroPostOverviewPanel>
+        ></BroPostItem>
       ))}
     </Stack>
   );
