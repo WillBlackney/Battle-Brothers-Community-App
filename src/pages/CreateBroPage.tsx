@@ -14,6 +14,11 @@ import { v4 as uuidv4 } from "uuid";
 import PageContentLayout from "../components/Layout/PageContent";
 import AttributeRow from "./AttributeRow";
 import { getAttributeData } from "../data controllers/AttributeDataController";
+import PerkIcon from "./PerkIcon";
+import {
+  AllPerkData,
+  getPerkDataByName,
+} from "../data controllers/PerkDataController";
 
 type CreateBroPageProps = {};
 
@@ -164,17 +169,115 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
 
       {/* Perks Row */}
       <Flex
+        direction="column"
         align="center"
         bg="gray.100"
         borderRadius={4}
         borderColor="red"
         borderWidth="2px"
         width="100%"
-        height="500px"
-        justify="center"
+        height="350px"
+        justify="start"
         mb={4}
       >
-        PERKS
+        {/*Tier 1 Perks */}
+        <Flex
+          align="center"
+          borderRadius={4}
+          borderColor="blue"
+          borderWidth="2px"
+          width="100%"
+          height="45px"
+          justify="center"
+        >
+          {AllPerkData.filter((p) => p.tierLevel === 1).map((perk) => (
+            <PerkIcon perkData={perk}></PerkIcon>
+          ))}
+        </Flex>
+        {/*Tier 2 Perks */}
+        <Flex
+          align="center"
+          borderRadius={4}
+          borderColor="blue"
+          borderWidth="2px"
+          width="100%"
+          height="45px"
+          justify="center"
+        >
+          {AllPerkData.filter((p) => p.tierLevel === 2).map((perk) => (
+            <PerkIcon perkData={perk}></PerkIcon>
+          ))}
+        </Flex>
+        {/*Tier 3 Perks */}
+        <Flex
+          align="center"
+          borderRadius={4}
+          borderColor="blue"
+          borderWidth="2px"
+          width="100%"
+          height="45px"
+          justify="center"
+        >
+          {AllPerkData.filter((p) => p.tierLevel === 3).map((perk) => (
+            <PerkIcon perkData={perk}></PerkIcon>
+          ))}
+        </Flex>
+        {/*Tier 4 Perks */}
+        <Flex
+          align="center"
+          borderRadius={4}
+          borderColor="blue"
+          borderWidth="2px"
+          width="100%"
+          height="45px"
+          justify="center"
+        >
+          {AllPerkData.filter((p) => p.tierLevel === 4).map((perk) => (
+            <PerkIcon perkData={perk}></PerkIcon>
+          ))}
+        </Flex>
+        {/*Tier 5 Perks */}
+        <Flex
+          align="center"
+          borderRadius={4}
+          borderColor="blue"
+          borderWidth="2px"
+          width="100%"
+          height="45px"
+          justify="center"
+        >
+          {AllPerkData.filter((p) => p.tierLevel === 5).map((perk) => (
+            <PerkIcon perkData={perk}></PerkIcon>
+          ))}
+        </Flex>
+        {/*Tier 6 Perks */}
+        <Flex
+          align="center"
+          borderRadius={4}
+          borderColor="blue"
+          borderWidth="2px"
+          width="100%"
+          height="45px"
+          justify="center"
+        >
+          {AllPerkData.filter((p) => p.tierLevel === 6).map((perk) => (
+            <PerkIcon perkData={perk}></PerkIcon>
+          ))}
+        </Flex>
+        {/*Tier 7 Perks */}
+        <Flex
+          align="center"
+          borderRadius={4}
+          borderColor="blue"
+          borderWidth="2px"
+          width="100%"
+          height="45px"
+          justify="center"
+        >
+          {AllPerkData.filter((p) => p.tierLevel === 7).map((perk) => (
+            <PerkIcon perkData={perk}></PerkIcon>
+          ))}
+        </Flex>
       </Flex>
 
       {/* Stats + Avatar Row */}
@@ -217,7 +320,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           Items
         </Flex>
         {/*Stats*/}
-
         {/*Colums + Header Text Fitter*/}
         <Flex direction="column" justify="center" align="center" height="100%">
           {/* Columns Fitter*/}
