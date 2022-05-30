@@ -4,9 +4,14 @@ import { Image } from "@chakra-ui/react";
 type PerkIconProps = {
   perkData?: PerkData;
   onPerkClicked?(perkDataClicked: PerkData): void;
+  hasPerkPoints: boolean;
 };
 
-const PerkIcon: React.FC<PerkIconProps> = ({ perkData, onPerkClicked }) => {
+const PerkIcon: React.FC<PerkIconProps> = ({
+  perkData,
+  onPerkClicked,
+  hasPerkPoints,
+}) => {
   const [selected, setSelected] = useState(false);
   const [mousedOver, setMousedOver] = useState(false);
 
@@ -18,9 +23,18 @@ const PerkIcon: React.FC<PerkIconProps> = ({ perkData, onPerkClicked }) => {
   };
   const mouseClick = () => {
     console.log("PerkIcon.mouseClick(): ", perkData?.perkName);
-    if (selected) setSelected(false);
-    else setSelected(true);
-    setMousedOver(false);
+    if (selected) {
+      setSelected(false);
+      setMousedOver(false);
+    } else if (!selected) {
+      if (
+        perkData?.perkName === "Student" ||
+        (perkData?.perkName !== "Student" && hasPerkPoints)
+      ) {
+        setSelected(true);
+        setMousedOver(false);
+      }
+    }
 
     if (onPerkClicked && perkData) onPerkClicked(perkData);
   };

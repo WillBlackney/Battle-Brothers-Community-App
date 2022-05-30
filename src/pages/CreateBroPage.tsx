@@ -41,6 +41,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
   const [rangedDefence, setRangedDefence] = useState(0);
 
   // Perks
+  const [perkPoints, setPerkPoints] = useState(10);
   const [selectedPerks, setSelectedPerks] = useState<PerkData[]>([]);
   const onPerkIconClicked = (perkClicked: PerkData) => {
     // Deselect
@@ -49,13 +50,22 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
       selectedPerks.splice(index, 1);
       setSelectedPerks([...selectedPerks]);
       console.log("selected perks removal:", selectedPerks);
+      if (perkClicked.perkName !== "Student") {
+        const newPerkPoints = perkPoints + 1;
+        setPerkPoints(newPerkPoints);
+      }
     }
     // Select
     else {
+      if (perkPoints == 0 && perkClicked.perkName !== "Student") return;
       let newValue = selectedPerks;
       newValue.push(perkClicked);
       setSelectedPerks(newValue);
       console.log("selected perks addition:", selectedPerks);
+      if (perkClicked.perkName !== "Student") {
+        const newPerkPoints = perkPoints - 1;
+        setPerkPoints(newPerkPoints);
+      }
     }
   };
 
@@ -190,6 +200,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         justify="start"
         mb={4}
       >
+        <Text>Perk Points: {perkPoints}</Text>
         {/*Tier 1 Perks */}
         <Flex
           align="center"
@@ -205,6 +216,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               key={perk.perkName}
               perkData={perk}
               onPerkClicked={onPerkIconClicked}
+              hasPerkPoints={perkPoints > 0}
             ></PerkIcon>
           ))}
         </Flex>
@@ -223,6 +235,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               key={perk.perkName}
               perkData={perk}
               onPerkClicked={onPerkIconClicked}
+              hasPerkPoints={perkPoints > 0}
             ></PerkIcon>
           ))}
         </Flex>
@@ -241,6 +254,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               key={perk.perkName}
               perkData={perk}
               onPerkClicked={onPerkIconClicked}
+              hasPerkPoints={perkPoints > 0}
             ></PerkIcon>
           ))}
         </Flex>
@@ -259,6 +273,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               key={perk.perkName}
               perkData={perk}
               onPerkClicked={onPerkIconClicked}
+              hasPerkPoints={perkPoints > 0}
             ></PerkIcon>
           ))}
         </Flex>
@@ -277,6 +292,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               key={perk.perkName}
               perkData={perk}
               onPerkClicked={onPerkIconClicked}
+              hasPerkPoints={perkPoints > 0}
             ></PerkIcon>
           ))}
         </Flex>
@@ -295,6 +311,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               key={perk.perkName}
               perkData={perk}
               onPerkClicked={onPerkIconClicked}
+              hasPerkPoints={perkPoints > 0}
             ></PerkIcon>
           ))}
         </Flex>
@@ -313,6 +330,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               key={perk.perkName}
               perkData={perk}
               onPerkClicked={onPerkIconClicked}
+              hasPerkPoints={perkPoints > 0}
             ></PerkIcon>
           ))}
         </Flex>
