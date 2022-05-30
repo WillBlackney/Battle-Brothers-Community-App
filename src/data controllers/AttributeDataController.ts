@@ -30,12 +30,12 @@ export const AllAttributeData: AttributeData[] = [
     description: "",
   },
   {
-    attributeName: "Melee Defense",
+    attributeName: "Melee Defence",
     iconImageURL: "/images/Attribute_Icons/Melee_Defence.png",
     description: "",
   },
   {
-    attributeName: "Ranged Defense",
+    attributeName: "Ranged Defence",
     iconImageURL: "/images/Attribute_Icons/Ranged_Defence.png",
     description: "",
   },
@@ -44,7 +44,7 @@ export const AllAttributeData: AttributeData[] = [
 export function getAttributeData(
   attributeName: string
 ): AttributeData | undefined {
-  console.log("getAttributeData() searching for attribute: " + attributeName);
+  //console.log("getAttributeData() searching for attribute: " + attributeName);
   return AllAttributeData.find((i) => i.attributeName == attributeName);
 }
 

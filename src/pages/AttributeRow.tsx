@@ -24,19 +24,22 @@ const AttributeRow: React.FC<AttributeRowProps> = ({
   const onFieldValueChanged = (event: any) => {
     let value = event.target.value;
     if (value.trim() == "") value = "0";
-    setCurrentValue(parseInt(value));
-    onAttributeValueChanged(parseInt(value));
-    console.log("current value: ", currentValue);
+    const newValue = parseInt(value);
+    setCurrentValue(newValue);
+    onAttributeValueChanged(newValue);
+    console.log("current value: ", newValue);
   };
   const onUpButtonClick = () => {
-    setCurrentValue(clamp(currentValue + 1, 0, 200));
-    onAttributeValueChanged(currentValue);
-    console.log("current value: ", currentValue);
+    const newValue = clamp(currentValue + 1, 0, 200);
+    setCurrentValue(newValue);
+    onAttributeValueChanged(newValue);
+    console.log("current value: ", newValue);
   };
   const onDownButtonClick = () => {
-    setCurrentValue(clamp(currentValue - 1, 0, 200));
-    onAttributeValueChanged(currentValue);
-    console.log("current value: ", currentValue);
+    const newValue = clamp(currentValue - 1, 0, 200);
+    setCurrentValue(newValue);
+    onAttributeValueChanged(newValue);
+    console.log("current value: ", newValue);
   };
   const clamp = (num: number, min: number, max: number) =>
     Math.min(Math.max(num, min), max);

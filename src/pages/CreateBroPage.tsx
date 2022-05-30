@@ -8,7 +8,7 @@ import {
   setDoc,
   Transaction,
 } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 as uuidv4 } from "uuid";
 import PageContentLayout from "../components/Layout/PageContent";
@@ -43,6 +43,17 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         "Build name must be between 3–21 characters."
       );
     }
+
+    useEffect(() => {}, [
+      health,
+      fatigue,
+      resolve,
+      initiative,
+      meleeAttack,
+      meleeDefence,
+      rangedAttack,
+      rangedDefence,
+    ]);
 
     setLoading(true);
 
@@ -208,7 +219,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         {/*Stats*/}
 
         {/*Colums + Header Text Fitter*/}
-        <Flex direction="column" justify="center" align="center">
+        <Flex direction="column" justify="center" align="center" height="100%">
           {/* Columns Fitter*/}
           <Text width={"100%"} textAlign="center">
             Minimum Attribute Levels
@@ -275,11 +286,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               ></AttributeRow>
               <AttributeRow
                 onAttributeValueChanged={setMeleeDefence}
-                attributeData={getAttributeData("Melee Defense")}
+                attributeData={getAttributeData("Melee Defence")}
               ></AttributeRow>
               <AttributeRow
                 onAttributeValueChanged={setRangedDefence}
-                attributeData={getAttributeData("Ranged Defense")}
+                attributeData={getAttributeData("Ranged Defence")}
               ></AttributeRow>
             </Flex>
           </Flex>
