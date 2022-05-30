@@ -12,6 +12,8 @@ import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 as uuidv4 } from "uuid";
 import PageContentLayout from "../components/Layout/PageContent";
+import AttributeRow from "./AttributeRow";
+import { getAttributeData } from "../data controllers/AttributeDataController";
 
 type CreateBroPageProps = {};
 
@@ -21,6 +23,16 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
   const [charsRemaining, setCharsRemaining] = useState(21);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Attribute tracking stat
+  const [health, setHealth] = useState(0);
+  const [fatigue, setFatigue] = useState(0);
+  const [resolve, setResolve] = useState(0);
+  const [initiative, setInitiative] = useState(0);
+  const [meleeAttack, setMeleeAttack] = useState(0);
+  const [rangedAttack, setRangedAttack] = useState(0);
+  const [meleeDefence, setMeleeDefence] = useState(0);
+  const [rangedDefence, setRangedDefence] = useState(0);
 
   const handlePublishBroBuild = async () => {
     // validate build name
@@ -49,6 +61,19 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           createdAt: serverTimestamp(),
           buildName: buildName,
           uid: uniqueId,
+          numberOfComments: 0,
+          voteStatus: 0,
+
+          // to do: perks/stats, etc
+          // attributes
+          minHealth: health,
+          minFatigue: fatigue,
+          minResolve: resolve,
+          minInitiative: initiative,
+          minMeleeAttack: meleeAttack,
+          minRangedAttack: rangedAttack,
+          minMeleeDefence: meleeDefence,
+          minRangedDefence: rangedDefence,
         });
 
         transaction.set(
@@ -154,6 +179,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         align={"center"}
         mb={4}
       >
+        {/*Avatar */}
         <Flex
           align="center"
           bg="white"
@@ -166,6 +192,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         >
           Avatar
         </Flex>
+        {/*Items */}
         <Flex
           align="center"
           bg="white"
@@ -178,17 +205,84 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         >
           Items
         </Flex>
-        <Flex
-          align="center"
-          bg="white"
-          borderRadius={4}
-          borderColor="red"
-          borderWidth="2px"
-          width="30%"
-          height="90%"
-          justify="center"
-        >
-          Stats
+        {/*Stats*/}
+
+        {/*Colums + Header Text Fitter*/}
+        <Flex direction="column" justify="center" align="center">
+          {/* Columns Fitter*/}
+          <Text width={"100%"} textAlign="center">
+            Minimum Attribute Levels
+          </Text>
+
+          <Flex
+            align="center"
+            bg="white"
+            borderRadius={4}
+            borderColor="red"
+            borderWidth="2px"
+            width="100%"
+            height="100%"
+            justify="center"
+          >
+            {/*Stat Column 1*/}
+            <Flex
+              align="center"
+              bg="white"
+              borderRadius={4}
+              borderColor="blue"
+              borderWidth="1px"
+              width="50%"
+              height="100%"
+              justify="center"
+              direction="column"
+            >
+              <AttributeRow
+                onAttributeValueChanged={setHealth}
+                attributeData={getAttributeData("Health")}
+              ></AttributeRow>
+              <AttributeRow
+                onAttributeValueChanged={setFatigue}
+                attributeData={getAttributeData("Fatigue")}
+              ></AttributeRow>
+              <AttributeRow
+                onAttributeValueChanged={setResolve}
+                attributeData={getAttributeData("Resolve")}
+              ></AttributeRow>
+              <AttributeRow
+                onAttributeValueChanged={setInitiative}
+                attributeData={getAttributeData("Initiative")}
+              ></AttributeRow>
+            </Flex>
+            {/*Stat Column 2*/}
+            <Flex
+              align="center"
+              bg="white"
+              borderRadius={4}
+              borderColor="blue"
+              borderWidth="1px"
+              width="50%"
+              height="100%"
+              justify="center"
+              direction="column"
+            >
+              <AttributeRow
+                onAttributeValueChanged={setMeleeAttack}
+                attributeData={getAttributeData("Melee Attack")}
+              ></AttributeRow>
+              <AttributeRow
+                onAttributeValueChanged={setRangedAttack}
+                attributeData={getAttributeData("Ranged Attack")}
+              ></AttributeRow>
+              <AttributeRow
+                onAttributeValueChanged={setMeleeDefence}
+                attributeData={getAttributeData("Melee Defense")}
+              ></AttributeRow>
+              <AttributeRow
+                onAttributeValueChanged={setRangedDefence}
+                attributeData={getAttributeData("Ranged Defense")}
+              ></AttributeRow>
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
 
@@ -206,6 +300,14 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
       >
         Description
       </Flex>
+      <Button
+        width="150px"
+        m={5}
+        onClick={handlePublishBroBuild}
+        isLoading={loading}
+      >
+        Publish
+      </Button>
     </Flex>
 
     /*
