@@ -18,6 +18,7 @@ import PerkIcon from "./PerkIcon";
 import {
   AllPerkData,
   getPerkDataByName,
+  PerkData,
 } from "../data controllers/PerkDataController";
 
 type CreateBroPageProps = {};
@@ -39,6 +40,25 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
   const [meleeDefence, setMeleeDefence] = useState(0);
   const [rangedDefence, setRangedDefence] = useState(0);
 
+  // Perks
+  const [selectedPerks, setSelectedPerks] = useState<PerkData[]>([]);
+  const onPerkIconClicked = (perkClicked: PerkData) => {
+    // Deselect
+    if (selectedPerks.includes(perkClicked)) {
+      var index = selectedPerks.indexOf(perkClicked);
+      selectedPerks.splice(index, 1);
+      setSelectedPerks([...selectedPerks]);
+      console.log("selected perks removal:", selectedPerks);
+    }
+    // Select
+    else {
+      let newValue = selectedPerks;
+      newValue.push(perkClicked);
+      setSelectedPerks(newValue);
+      console.log("selected perks addition:", selectedPerks);
+    }
+  };
+
   const handlePublishBroBuild = async () => {
     // validate build name
     const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
@@ -48,17 +68,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         "Build name must be between 3–21 characters."
       );
     }
-
-    useEffect(() => {}, [
-      health,
-      fatigue,
-      resolve,
-      initiative,
-      meleeAttack,
-      meleeDefence,
-      rangedAttack,
-      rangedDefence,
-    ]);
 
     setLoading(true);
 
@@ -90,6 +99,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           minRangedAttack: rangedAttack,
           minMeleeDefence: meleeDefence,
           minRangedDefence: rangedDefence,
+          perks: selectedPerks,
         });
 
         transaction.set(
@@ -191,7 +201,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           justify="center"
         >
           {AllPerkData.filter((p) => p.tierLevel === 1).map((perk) => (
-            <PerkIcon perkData={perk}></PerkIcon>
+            <PerkIcon
+              key={perk.perkName}
+              perkData={perk}
+              onPerkClicked={onPerkIconClicked}
+            ></PerkIcon>
           ))}
         </Flex>
         {/*Tier 2 Perks */}
@@ -205,7 +219,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           justify="center"
         >
           {AllPerkData.filter((p) => p.tierLevel === 2).map((perk) => (
-            <PerkIcon perkData={perk}></PerkIcon>
+            <PerkIcon
+              key={perk.perkName}
+              perkData={perk}
+              onPerkClicked={onPerkIconClicked}
+            ></PerkIcon>
           ))}
         </Flex>
         {/*Tier 3 Perks */}
@@ -219,7 +237,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           justify="center"
         >
           {AllPerkData.filter((p) => p.tierLevel === 3).map((perk) => (
-            <PerkIcon perkData={perk}></PerkIcon>
+            <PerkIcon
+              key={perk.perkName}
+              perkData={perk}
+              onPerkClicked={onPerkIconClicked}
+            ></PerkIcon>
           ))}
         </Flex>
         {/*Tier 4 Perks */}
@@ -233,7 +255,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           justify="center"
         >
           {AllPerkData.filter((p) => p.tierLevel === 4).map((perk) => (
-            <PerkIcon perkData={perk}></PerkIcon>
+            <PerkIcon
+              key={perk.perkName}
+              perkData={perk}
+              onPerkClicked={onPerkIconClicked}
+            ></PerkIcon>
           ))}
         </Flex>
         {/*Tier 5 Perks */}
@@ -247,7 +273,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           justify="center"
         >
           {AllPerkData.filter((p) => p.tierLevel === 5).map((perk) => (
-            <PerkIcon perkData={perk}></PerkIcon>
+            <PerkIcon
+              key={perk.perkName}
+              perkData={perk}
+              onPerkClicked={onPerkIconClicked}
+            ></PerkIcon>
           ))}
         </Flex>
         {/*Tier 6 Perks */}
@@ -261,7 +291,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           justify="center"
         >
           {AllPerkData.filter((p) => p.tierLevel === 6).map((perk) => (
-            <PerkIcon perkData={perk}></PerkIcon>
+            <PerkIcon
+              key={perk.perkName}
+              perkData={perk}
+              onPerkClicked={onPerkIconClicked}
+            ></PerkIcon>
           ))}
         </Flex>
         {/*Tier 7 Perks */}
@@ -275,7 +309,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           justify="center"
         >
           {AllPerkData.filter((p) => p.tierLevel === 7).map((perk) => (
-            <PerkIcon perkData={perk}></PerkIcon>
+            <PerkIcon
+              key={perk.perkName}
+              perkData={perk}
+              onPerkClicked={onPerkIconClicked}
+            ></PerkIcon>
           ))}
         </Flex>
       </Flex>
