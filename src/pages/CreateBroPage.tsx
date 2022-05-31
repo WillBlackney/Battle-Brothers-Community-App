@@ -1,4 +1,4 @@
-import { Flex, Input, Button, Text } from "@chakra-ui/react";
+import { Flex, Input, Button, Text, Textarea } from "@chakra-ui/react";
 import { auth, firestore } from "../firebase/clientApp";
 import {
   doc,
@@ -29,6 +29,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
   const [charsRemaining, setCharsRemaining] = useState(21);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [description, setDescription] = useState("");
 
   // Attribute tracking stat
   const [health, setHealth] = useState(0);
@@ -69,6 +70,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
     }
   };
 
+  // Publish
   const handlePublishBroBuild = async () => {
     // validate build name
     const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
@@ -98,6 +100,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           uid: uniqueId,
           numberOfComments: 0,
           voteStatus: 0,
+          description: description,
 
           // to do: perks/stats, etc
           // attributes
@@ -128,12 +131,21 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
     setLoading(false);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBuildNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.value.length > 21) return;
     setError("");
     setBuildName(event.target.value);
     setCharsRemaining(21 - event.target.value.length);
     console.log(buildName);
+  };
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const newValue = event.target.value;
+    setDescription(newValue);
+    console.log("description: ", description, newValue);
   };
 
   return (
@@ -163,7 +175,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         mb={4}
       >
         <Input
-          onChange={handleChange}
+          onChange={handleBuildNameChange}
           placeholder="Build name..."
           fontSize="10pt"
           _placeholder={{ color: "gray.500" }}
@@ -458,16 +470,21 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
       {/* Description Row*/}
       <Flex
         align="center"
-        bg="gray.100"
+        direction={"column"}
         borderRadius={4}
-        borderColor="red"
-        borderWidth="2px"
         width="100%"
         height="200px"
-        justify="center"
+        justify="start"
         mb={4}
       >
-        Description
+        <Text>Build Description</Text>
+        <Textarea
+          placeholder="Here is a sample placeholder"
+          size="sm"
+          height={"100%"}
+          resize={"vertical"}
+          onChange={handleDescriptionChange}
+        />
       </Flex>
       <Button
         width="150px"
