@@ -8,9 +8,10 @@ import { Flex, Stack } from "@chakra-ui/react";
 import BroPostPageNotFound from "../../../components/Community/BroPostPageNotFound";
 import PageContentLayout from "../../../components/Layout/PageContent";
 import useBroBuilds from "../../../hooks/useBroBuilds";
-import BroPostItem from "../../../components/Community/BroPostItem";
+import BroPostItemFeed from "../../../components/Community/BroPostItemFeed";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
+import BroPostItemDetailed from "../../../components/Community/BroPostItemDetailed";
 
 type BroPostPageProps = {
   broBuildData: BroBuild;
@@ -50,7 +51,7 @@ const BroPostPage: React.FC<BroPostPageProps> = () => {
   return (
     <Flex align="center" width="100%" justify="center" mt="4">
       {broBuildsStateValue.selectedBroBuild && (
-        <BroPostItem
+        <BroPostItemDetailed
           broBuild={broBuildsStateValue.selectedBroBuild}
           onVote={onVoteBroBuild}
           onDelete={onDeleteBroBuild}
@@ -63,46 +64,9 @@ const BroPostPage: React.FC<BroPostPageProps> = () => {
           userIsCreator={
             user?.uid === broBuildsStateValue.selectedBroBuild?.creatorId
           }
-        ></BroPostItem>
+        ></BroPostItemDetailed>
       )}
     </Flex>
   );
-  {
-    /*
-  console.log("Bro build data: ", broBuildData);
-  if (!broBuildData) {
-    return <BroPostPageNotFound></BroPostPageNotFound>;
-  }
-  return (
-    <>
-      <Flex bg="white">Bro Build Post Page for: {broBuildData.uid}</Flex>);
-    </>
-  );
-};
-
-
-export async function getServerSideProps(context: GetServerSideProps) {
-  try {
-    const broBuildsDocRef = doc(
-      firestore,
-      "brobuilds",
-      context.query.broBuildId as string
-    );
-    const broBuildsDoc = await getDoc(broBuildsDocRef);
-
-    return {
-      props: {
-        broBuildData: broBuildsDoc.exists()
-          ? JSON.parse(
-              safeJsonStringify({ uid: broBuildsDoc.id, ...broBuildsDoc.data })
-            )
-          : "",
-      },
-    };
-  } catch (error) {
-    console.log("getServerSideProps error: ", error);
-  }
-*/
-  }
 };
 export default BroPostPage;

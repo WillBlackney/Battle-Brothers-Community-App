@@ -17,15 +17,17 @@ import {
 type PerkIconProps = {
   perkData?: PerkData;
   onPerkClicked?(perkDataClicked: PerkData): void;
-  hasPerkPoints: boolean;
+  hasPerkPoints?: boolean;
+  viewBroPage: boolean;
 };
 
 const PerkIcon: React.FC<PerkIconProps> = ({
   perkData,
   onPerkClicked,
   hasPerkPoints,
+  viewBroPage,
 }) => {
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(viewBroPage);
   const [mousedOver, setMousedOver] = useState(false);
 
   const mouseEnter = () => {
@@ -36,6 +38,7 @@ const PerkIcon: React.FC<PerkIconProps> = ({
   };
   const mouseClick = () => {
     console.log("PerkIcon.mouseClick(): ", perkData?.perkName);
+    if (viewBroPage) return;
     if (selected) {
       setSelected(false);
       setMousedOver(false);
@@ -56,6 +59,7 @@ const PerkIcon: React.FC<PerkIconProps> = ({
       <Popover trigger="hover" closeDelay={0}>
         <PopoverTrigger>
           <Image
+            cursor={!viewBroPage && "pointer"}
             onClick={mouseClick}
             onMouseEnter={mouseEnter}
             onMouseLeave={mouseExit}

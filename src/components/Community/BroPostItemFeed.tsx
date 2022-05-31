@@ -37,7 +37,7 @@ type BroPostItemProps = {
   onSelect?: (broBuild: BroBuild) => void;
 };
 
-const BroPostItem: React.FC<BroPostItemProps> = ({
+const BroPostItemFeed: React.FC<BroPostItemProps> = ({
   broBuild,
   userIsCreator,
   userVoteValue,
@@ -202,4 +202,4 @@ const BroPostItem: React.FC<BroPostItemProps> = ({
     </Flex>
   );
 };
-export default BroPostItem;
+export default BroPostItemFeed;
