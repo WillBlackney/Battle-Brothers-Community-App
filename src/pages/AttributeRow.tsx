@@ -6,6 +6,13 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -54,12 +61,22 @@ const AttributeRow: React.FC<AttributeRowProps> = ({
       borderColor="blue"
       borderWidth="1px"
     >
-      <Image
-        src={attributeData?.iconImageURL}
-        height="2rem"
-        width="2rem"
-        m={2}
-      ></Image>
+      <Popover trigger="hover" closeDelay={0}>
+        <PopoverTrigger>
+          <Image
+            src={attributeData?.iconImageURL}
+            height="2rem"
+            width="2rem"
+            m={2}
+          ></Image>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverArrow />
+          <PopoverHeader>{attributeData?.attributeName}</PopoverHeader>
+          <PopoverBody>{attributeData?.description}</PopoverBody>
+        </PopoverContent>
+      </Popover>
+
       <Text ml={2} mr={2} fontSize="12">
         {attributeData?.attributeName}
       </Text>

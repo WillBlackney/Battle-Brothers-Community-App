@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import { PerkData } from "../data controllers/PerkDataController";
-import { Image } from "@chakra-ui/react";
+import {
+  Flex,
+  Image,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+  Button,
+} from "@chakra-ui/react";
 type PerkIconProps = {
   perkData?: PerkData;
   onPerkClicked?(perkDataClicked: PerkData): void;
@@ -40,19 +53,28 @@ const PerkIcon: React.FC<PerkIconProps> = ({
   };
   return (
     <>
-      <Image
-        onClick={mouseClick}
-        onMouseEnter={mouseEnter}
-        onMouseLeave={mouseExit}
-        height="100%"
-        m={1}
-        src={perkData?.perkImageURL}
-        style={
-          selected || mousedOver
-            ? { filter: "grayscale(0%)" }
-            : { filter: "grayscale(100%)" }
-        }
-      ></Image>
+      <Popover trigger="hover" closeDelay={0}>
+        <PopoverTrigger>
+          <Image
+            onClick={mouseClick}
+            onMouseEnter={mouseEnter}
+            onMouseLeave={mouseExit}
+            height="100%"
+            m={1}
+            src={perkData?.perkImageURL}
+            style={
+              selected || mousedOver
+                ? { filter: "grayscale(0%)" }
+                : { filter: "grayscale(100%)" }
+            }
+          ></Image>
+        </PopoverTrigger>
+        <PopoverContent>
+          <PopoverArrow />
+          <PopoverHeader>{perkData?.perkName}</PopoverHeader>
+          <PopoverBody>{perkData?.description}</PopoverBody>
+        </PopoverContent>
+      </Popover>
     </>
   );
 };
