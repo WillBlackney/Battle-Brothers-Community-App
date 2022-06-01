@@ -40,6 +40,8 @@ const useBroBuilds = () => {
         (vote) => vote.broBuildId === broBuild.id
       );
 
+      console.log("existing vote: ", existingVote);
+
       const batch = writeBatch(firestore);
       const updatedBroBuild = { ...broBuild };
       const updatedBroBuilds = [...broBuildsStateValue.allBroBuilds];
@@ -52,9 +54,6 @@ const useBroBuilds = () => {
         const broBuildVoteRef = doc(
           collection(firestore, "users", `${user?.uid}/broBuildVotes`)
         );
-
-        console.log("broBuildVoteRef:", broBuildVoteRef);
-
         const newVote: BroBuildVote = {
           id: broBuildVoteRef.id,
           broBuildId: broBuild.id!,
@@ -123,7 +122,7 @@ const useBroBuilds = () => {
       }
       */
 
-      const postRef = doc(firestore, "broBuilds", broBuild.id!);
+      const postRef = doc(firestore, "brobuilds", broBuild.id!);
       batch.update(postRef, { voteStatus: voteStatus + voteChange });
 
       await batch.commit();
@@ -168,6 +167,7 @@ const useBroBuilds = () => {
   };
 
   const getUserBroBuildVotes = async () => {
+    console.log("getUserBroBuildVotes()");
     const postVotesQuery = query(
       collection(firestore, "users", `${user?.uid}/broBuildVotes`)
     );
@@ -185,8 +185,23 @@ const useBroBuilds = () => {
   };
 
   useEffect(() => {
+    if (!user || !broBuildsStateValue.selectedBroBuild) return;
+    getUserBroBuildVotes();
+  }, [user, broBuildsStateValue.selectedBroBuild]);
+
+  useEffect(() => {
     if (!user) return;
     getUserBroBuildVotes();
+  }, []);
+
+  useEffect(() => {
+    // Clear post votes when user logs out
+    if (!user) {
+      setBroBuildsStateValue((prev) => ({
+        ...prev,
+        postVotes: [],
+      }));
+    }
   }, [user]);
 
   return {

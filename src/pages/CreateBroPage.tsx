@@ -94,7 +94,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           creatorId: user?.uid,
           createdAt: serverTimestamp(),
           buildName: buildName,
-          uid: uniqueId,
+          id: uniqueId,
           numberOfComments: 0,
           voteStatus: 0,
           description: description,
@@ -115,7 +115,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         transaction.set(
           doc(firestore, `users/${user?.uid}/broBuildSnippets`, uniqueId),
           {
-            uid: uniqueId,
+            id: uniqueId,
             buildName: buildName,
           }
         );

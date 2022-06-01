@@ -33,7 +33,7 @@ const BroPostFeedContainer: React.FC = () => {
       const postQuery = query(collection(firestore, "brobuilds"));
       const postDocs = await getDocs(postQuery);
       const posts = postDocs.docs.map((doc) => ({
-        uid: doc.id,
+        id: doc.id,
         ...doc.data(),
       }));
 

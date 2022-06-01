@@ -8,6 +8,6 @@ export const createUserDocument = functions.auth
   .user()
   .onCreate(async (user) => {
     db.collection("users")
-      .doc(user.uid)
+      .doc(user.id)
       .set(JSON.parse(JSON.stringify(user)));
   });

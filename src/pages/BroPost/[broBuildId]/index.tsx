@@ -22,9 +22,9 @@ const BroPostPage: React.FC<BroPostPageProps> = () => {
   } = useBroBuilds();
   const router = useRouter();
 
-  const fetchBroBuild = async (broBuildUid: string) => {
+  const fetchBroBuild = async (broBuildId: string) => {
     try {
-      const broBuildsDocRef = doc(firestore, "brobuilds", broBuildUid);
+      const broBuildsDocRef = doc(firestore, "brobuilds", broBuildId);
       const broBuildDoc = await getDoc(broBuildsDocRef);
       setBroBuildsStateValue((prev) => ({
         ...prev,
@@ -52,8 +52,7 @@ const BroPostPage: React.FC<BroPostPageProps> = () => {
           onDelete={onDeleteBroBuild}
           userVoteValue={
             broBuildsStateValue.postVotes.find(
-              (item) =>
-                item.broBuildId === broBuildsStateValue.selectedBroBuild?.id
+              (item) => item.id === broBuildsStateValue.selectedBroBuild?.id
             )?.voteValue
           }
           userIsCreator={
