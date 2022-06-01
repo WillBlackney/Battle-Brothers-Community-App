@@ -26,7 +26,7 @@ type CreateBroPageProps = {};
 const CreateBroPage: React.FC<CreateBroPageProps> = () => {
   const [user] = useAuthState(auth);
   const [buildName, setBuildName] = useState("");
-  const [charsRemaining, setCharsRemaining] = useState(21);
+  const [charsRemaining, setCharsRemaining] = useState(30);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState("");
@@ -75,10 +75,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
     // validate build name
     const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (buildName.length < 3) {
-      return setError(
-        //"Build name must be between 3–21 characters, and can only contain letters, numbers, or underscores."
-        "Build name must be between 3–21 characters."
-      );
+      return setError("Build name must be between 3–30 characters.");
     }
 
     setLoading(true);
@@ -134,10 +131,10 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
   const handleBuildNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (event.target.value.length > 21) return;
+    if (event.target.value.length > 30) return;
     setError("");
     setBuildName(event.target.value);
-    setCharsRemaining(21 - event.target.value.length);
+    setCharsRemaining(30 - event.target.value.length);
     console.log(buildName);
   };
   const handleDescriptionChange = (
@@ -158,18 +155,13 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
       width={"90%"}
       height="100%"
       borderRadius={4}
-      borderColor="red"
-      borderWidth="2px"
       p={2}
       m={5}
     >
       {/* Name Row */}
       <Flex
         align="center"
-        bg="gray.100"
         borderRadius={4}
-        borderColor="red"
-        borderWidth="2px"
         width="100%"
         justify="center"
         mb={4}
@@ -205,8 +197,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         align="center"
         bg="gray.100"
         borderRadius={4}
-        borderColor="red"
-        borderWidth="2px"
         width="100%"
         height="350px"
         justify="start"
@@ -217,8 +207,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         <Flex
           align="center"
           borderRadius={4}
-          borderColor="blue"
-          borderWidth="2px"
           width="100%"
           height="45px"
           justify="center"
@@ -237,8 +225,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         <Flex
           align="center"
           borderRadius={4}
-          borderColor="blue"
-          borderWidth="2px"
           width="100%"
           height="45px"
           justify="center"
@@ -257,8 +243,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         <Flex
           align="center"
           borderRadius={4}
-          borderColor="blue"
-          borderWidth="2px"
           width="100%"
           height="45px"
           justify="center"
@@ -277,8 +261,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         <Flex
           align="center"
           borderRadius={4}
-          borderColor="blue"
-          borderWidth="2px"
           width="100%"
           height="45px"
           justify="center"
@@ -297,8 +279,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         <Flex
           align="center"
           borderRadius={4}
-          borderColor="blue"
-          borderWidth="2px"
           width="100%"
           height="45px"
           justify="center"
@@ -317,8 +297,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         <Flex
           align="center"
           borderRadius={4}
-          borderColor="blue"
-          borderWidth="2px"
           width="100%"
           height="45px"
           justify="center"
@@ -337,8 +315,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         <Flex
           align="center"
           borderRadius={4}
-          borderColor="blue"
-          borderWidth="2px"
           width="100%"
           height="45px"
           justify="center"
@@ -360,8 +336,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         justifyContent="space-evenly"
         bg="gray.100"
         borderRadius={4}
-        borderColor="red"
-        borderWidth="2px"
         width="100%"
         height="300px"
         justify="center"
@@ -373,8 +347,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           align="center"
           bg="white"
           borderRadius={4}
-          borderColor="red"
-          borderWidth="2px"
           width="30%"
           height="90%"
           justify="center"
@@ -386,8 +358,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           align="center"
           bg="white"
           borderRadius={4}
-          borderColor="red"
-          borderWidth="2px"
           width="30%"
           height="90%"
           justify="center"
@@ -406,10 +376,8 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
             align="center"
             bg="white"
             borderRadius={4}
-            borderColor="red"
-            borderWidth="2px"
             width="100%"
-            height="100%"
+            height="80%"
             justify="center"
           >
             {/*Stat Column 1*/}
@@ -418,10 +386,9 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               bg="white"
               borderRadius={4}
               width="50%"
-              height="100%"
+              height="90%"
               justify="start"
               direction="column"
-              
             >
               <AttributeRow
                 onAttributeValueChanged={setHealth}
@@ -449,10 +416,8 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               align="center"
               bg="white"
               borderRadius={4}
-              borderColor="blue"
-              borderWidth="1px"
               width="50%"
-              height="100%"
+              height="90%"
               justify="start"
               direction="column"
             >
@@ -493,7 +458,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
       >
         <Text>Build Description</Text>
         <Textarea
-          placeholder="Here is a sample placeholder"
+          placeholder="Tell us about this build ! What are it's strengths and weaknesses?"
           size="sm"
           height={"100%"}
           resize={"vertical"}

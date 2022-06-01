@@ -7,13 +7,10 @@ import { auth, firestore } from "../../firebase/clientApp";
 import useBroBuilds from "../../hooks/useBroBuilds";
 import BroPostItemFeed from "./BroPostItemFeed";
 
-type BroPostFeedContainerProps = {
-  // to do: needs to be a collection of bros, not 1
-  //brobuildData: BroBuild;
-  //userId?: string;
-};
+type FilterOptions = "new" | "popularAllTime" | "popularRecent";
 
-const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
+const BroPostFeedContainer: React.FC = () => {
+  const [filterCondition, setFilterCondition] = useState<FilterOptions>("new");
   const [searchTerm, setSearchTerm] = useState("");
   const [user] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
@@ -27,6 +24,7 @@ const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
   const onSearchTermInputChanged = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    console.log(searchTerm);
     const newValue = event.target.value;
     setSearchTerm(newValue);
   };
@@ -49,9 +47,57 @@ const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
     }
   };
 
+  const onNewFilterButtonClicked = () => {
+    console.log("onNewFilterButtonClicked");
+    setFilterCondition("new");
+    return;
+  };
+  const onPopularAllTimeFilterButtonClicked = () => {
+    console.log("onPopularAllTimeFilterButtonClicked");
+    setFilterCondition("popularAllTime");
+    return;
+  };
+  const onPopularRecentFilterButtonClicked = () => {
+    console.log("onPopularRecentFilterButtonClicked");
+    setFilterCondition("popularRecent");
+    return;
+  };
+
   useEffect(() => {
     getBroBuildPosts();
-  }, [broBuildsStateValue]);
+  }, []);
+
+  useEffect(() => {}, [searchTerm]);
+
+  const filteredBuilds = (): BroBuild[] => {
+    // Filter by search term
+    let builds = broBuildsStateValue.allBroBuilds.filter((build) =>
+      build.buildName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Order by newest
+    if (filterCondition === "new") {
+      builds = Object.values(builds).sort(
+        (a, b) => b.createdAt.toMillis() - a.createdAt.toMillis()
+      );
+    }
+
+    // Order by most popular (all time)
+    else if (filterCondition === "popularRecent") {
+      builds = Object.values(builds).sort(
+        (a, b) => b.voteStatus - a.voteStatus
+      );
+    }
+    // Order by most popular (last 30 days)
+    else if (filterCondition === "popularAllTime") {
+      builds = Object.values(builds).sort(
+        (a, b) => b.voteStatus - a.voteStatus
+      );
+    }
+
+    return builds;
+  };
+
   return (
     <>
       <Flex
@@ -72,7 +118,6 @@ const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
           width="100%"
           borderColor="gray.300"
         >
-          {/*<Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />*/}
           <Input
             placeholder="Search for a bro..."
             fontSize="10pt"
@@ -105,13 +150,19 @@ const BroPostFeedContainer: React.FC<BroPostFeedContainerProps> = () => {
           width="100%"
           p={3}
         >
-          <Button width="150px">New</Button>
-          <Button width="150px">Popular (All Time)</Button>
-          <Button width="150px">Popular (30 Days)</Button>
+          <Button onClick={onNewFilterButtonClicked} width="150px">
+            New
+          </Button>
+          <Button onClick={onPopularAllTimeFilterButtonClicked} width="150px">
+            Popular (All Time)
+          </Button>
+          <Button onClick={onPopularRecentFilterButtonClicked} width="150px">
+            Popular (30 Days)
+          </Button>
         </Flex>
       </Flex>
       <Stack pt={2}>
-        {broBuildsStateValue.allBroBuilds.map((item) => (
+        {filteredBuilds().map((item) => (
           <BroPostItemFeed
             key={item.uid}
             broBuild={item}

@@ -103,6 +103,7 @@ const AttributeRow: React.FC<AttributeRowProps> = ({
             min={0}
             max={200}
             value={currentValue}
+            bg="white"
           >
             <NumberInputField
               onInput={(event) => {

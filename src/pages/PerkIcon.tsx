@@ -56,7 +56,7 @@ const PerkIcon: React.FC<PerkIconProps> = ({
   };
   return (
     <>
-      <Popover trigger="hover" closeDelay={0}>
+      <Popover trigger="hover" closeDelay={0} closeOnEsc={true}>
         <PopoverTrigger>
           <Image
             align={"center"}
