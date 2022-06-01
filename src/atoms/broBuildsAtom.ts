@@ -3,7 +3,7 @@ import { atom } from "recoil";
 import { PerkData } from "../data controllers/PerkDataController";
 
 export interface BroBuild {
-  uid: string;
+  id: string;
   buildName: string;
   description: string;
   creatorId: string;
@@ -29,7 +29,7 @@ export interface BroBuild {
 }
 
 export type BroBuildVote = {
-  id?: string;
+  id: string;
   broBuildId: string;
   voteValue: number;
 };

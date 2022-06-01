@@ -26,16 +26,18 @@ const useBroBuilds = () => {
     broBuild: BroBuild,
     vote: number
   ) => {
+    console.log("onVoteBroBuild() called...");
     event.stopPropagation();
 
     // if no logged in user, open sign in modal
     if (!user?.uid) {
       setAuthModalState({ open: true, view: "login" });
+      return;
     }
     try {
       const { voteStatus } = broBuild;
       const existingVote = broBuildsStateValue.postVotes.find(
-        (vote) => vote.broBuildId === broBuild.uid
+        (vote) => vote.broBuildId === broBuild.id
       );
 
       const batch = writeBatch(firestore);
@@ -51,9 +53,11 @@ const useBroBuilds = () => {
           collection(firestore, "users", `${user?.uid}/broBuildVotes`)
         );
 
+        console.log("broBuildVoteRef:", broBuildVoteRef);
+
         const newVote: BroBuildVote = {
           id: broBuildVoteRef.id,
-          broBuildId: broBuild.uid!,
+          broBuildId: broBuild.id!,
           voteValue: vote,
         };
 
@@ -82,7 +86,7 @@ const useBroBuilds = () => {
         else {
           updatedBroBuild.voteStatus = voteStatus + 2 * vote;
           const voteIndex = broBuildsStateValue.postVotes.findIndex(
-            (vote) => vote.id == existingVote.id
+            (vote) => vote.id === existingVote.id
           );
           updatedBroBuildVotes[voteIndex] = {
             ...existingVote,
@@ -99,7 +103,7 @@ const useBroBuilds = () => {
 
       // Apply changed bro build to collection of bro builds before commiting
       const postIndex = broBuildsStateValue.allBroBuilds.findIndex(
-        (item) => item.uid == broBuild.uid
+        (item) => item.id === broBuild.id
       );
       updatedBroBuilds[postIndex] = updatedBroBuild;
 
@@ -110,18 +114,22 @@ const useBroBuilds = () => {
         postVotes: updatedBroBuildVotes,
       }));
 
+      /*
       if (broBuildsStateValue.selectedBroBuild) {
         setBroBuildsStateValue((prev) => ({
           ...prev,
           selectedBroBuild: updatedBroBuild,
         }));
       }
+      */
 
-      const postRef = doc(firestore, "broBuilds", broBuild.uid!);
-      batch.update(postRef, { voteStatus: vote + voteChange });
+      const postRef = doc(firestore, "broBuilds", broBuild.id!);
+      batch.update(postRef, { voteStatus: voteStatus + voteChange });
 
       await batch.commit();
-    } catch (error) {}
+    } catch (error) {
+      console.log("onVoteBroBuild error: ", error);
+    }
   };
 
   const onSelectBroBuild = (broBuild: BroBuild) => {
@@ -129,22 +137,22 @@ const useBroBuilds = () => {
       ...prev,
       selectedBroBuild: broBuild,
     }));
-    router.push(`BroPost/${broBuild.uid}`);
+    router.push(`BroPost/${broBuild.id}`);
   };
 
   const onDeleteBroBuild = async (broBuild: BroBuild): Promise<boolean> => {
-    console.log("DELETING BRO BUILD: ", broBuild.uid);
+    console.log("DELETING BRO BUILD: ", broBuild.id);
 
     try {
       // delete post from posts collection
-      const postDocRef = doc(firestore, "brobuilds", broBuild.uid);
+      const postDocRef = doc(firestore, "brobuilds", broBuild.id);
       await deleteDoc(postDocRef);
 
       // Update post state
       setBroBuildsStateValue((prev) => ({
         ...prev,
         allBroBuilds: prev.allBroBuilds.filter(
-          (item) => item.uid !== broBuild.uid
+          (item) => item.id !== broBuild.id
         ),
       }));
 

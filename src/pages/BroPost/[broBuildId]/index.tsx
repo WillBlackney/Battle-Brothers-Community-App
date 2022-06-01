@@ -29,7 +29,7 @@ const BroPostPage: React.FC<BroPostPageProps> = () => {
       setBroBuildsStateValue((prev) => ({
         ...prev,
         selectedBroBuild: {
-          uid: broBuildDoc.id,
+          id: broBuildDoc.id,
           ...broBuildDoc.data(),
         } as BroBuild,
       }));
@@ -53,7 +53,7 @@ const BroPostPage: React.FC<BroPostPageProps> = () => {
           userVoteValue={
             broBuildsStateValue.postVotes.find(
               (item) =>
-                item.broBuildId === broBuildsStateValue.selectedBroBuild?.uid
+                item.broBuildId === broBuildsStateValue.selectedBroBuild?.id
             )?.voteValue
           }
           userIsCreator={

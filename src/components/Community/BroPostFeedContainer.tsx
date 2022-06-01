@@ -164,12 +164,12 @@ const BroPostFeedContainer: React.FC = () => {
       <Stack pt={2}>
         {filteredBuilds().map((item) => (
           <BroPostItemFeed
-            key={item.uid}
+            key={item.id}
             broBuild={item}
             userIsCreator={user?.uid === item.creatorId}
             userVoteValue={
               broBuildsStateValue.postVotes.find(
-                (vote) => vote.broBuildId === item.uid
+                (vote) => vote.broBuildId === item.id
               )?.voteValue
             }
             onVote={onVoteBroBuild}
