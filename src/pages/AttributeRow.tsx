@@ -9,7 +9,6 @@ import {
   Popover,
   PopoverArrow,
   PopoverBody,
-  PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
@@ -60,20 +59,17 @@ const AttributeRow: React.FC<AttributeRowProps> = ({
     <Flex
       align="center"
       direction="row"
-      width="100%"
-      height="25%"
+      width="90%"
+      height="auto%"
       borderRadius={4}
-      borderColor="blue"
+      borderColor={"gray.300"}
       borderWidth="1px"
+      bg={"gray.100"}
+      mb={2}
     >
       <Popover trigger="hover" closeDelay={0}>
         <PopoverTrigger>
-          <Image
-            src={attributeData?.iconImageURL}
-            height="2rem"
-            width="2rem"
-            m={2}
-          ></Image>
+          <Image src={attributeData?.iconImageURL} height="auto"></Image>
         </PopoverTrigger>
         <PopoverContent>
           <PopoverArrow />
@@ -82,9 +78,14 @@ const AttributeRow: React.FC<AttributeRowProps> = ({
         </PopoverContent>
       </Popover>
 
-      <Text ml={2} mr={2} fontSize="12">
-        {attributeData?.attributeName}
-      </Text>
+      {!viewBroPage ? (
+        <Text ml={2} mr={2} fontSize="12">
+          {attributeData?.attributeName}
+        </Text>
+      ) : (
+        <Text ml={1}>{initialStatValue}</Text>
+      )}
+
       <Flex
         height={"100%"}
         width="100%"
@@ -92,7 +93,7 @@ const AttributeRow: React.FC<AttributeRowProps> = ({
         direction="row"
         justify={"flex-end"}
       >
-        {!viewBroPage ? (
+        {!viewBroPage && (
           <NumberInput
             float="right"
             m={2}
@@ -113,8 +114,6 @@ const AttributeRow: React.FC<AttributeRowProps> = ({
               <NumberDecrementStepper onClick={onDownButtonClick} />
             </NumberInputStepper>
           </NumberInput>
-        ) : (
-          <Text mr={5}>{initialStatValue}</Text>
         )}
       </Flex>
     </Flex>

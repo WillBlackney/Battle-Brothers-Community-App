@@ -48,8 +48,7 @@ const Home: NextPage = () => {
       );
 
       const postDocs = await getDocs(postQuery);
-      const posts = postDocs.docs.map(doc =>({id: doc.id, ...doc.data()}));
-      
+      const posts = postDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     } catch (error) {
       console.log("getBroPosts error: ", error);
     }
@@ -229,11 +228,11 @@ const Home: NextPage = () => {
   return (
     <PageContentLayout>
       <>
-        <BroSearchFilterPanel />
         {loading ? (
           <PostLoader></PostLoader>
-        ) : <BroPostFeedContainer>
-        </BroPostFeedContainer>}
+        ) : (
+          <BroPostFeedContainer></BroPostFeedContainer>
+        )}
       </>
       <Stack spacing={5} position="sticky" top="14px">
         <Recommendations />

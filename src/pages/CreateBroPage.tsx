@@ -417,12 +417,11 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               align="center"
               bg="white"
               borderRadius={4}
-              borderColor="blue"
-              borderWidth="1px"
               width="50%"
               height="100%"
-              justify="center"
+              justify="start"
               direction="column"
+              
             >
               <AttributeRow
                 onAttributeValueChanged={setHealth}
@@ -454,24 +453,28 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               borderWidth="1px"
               width="50%"
               height="100%"
-              justify="center"
+              justify="start"
               direction="column"
             >
               <AttributeRow
                 onAttributeValueChanged={setMeleeAttack}
                 attributeData={getAttributeData("Melee Attack")}
+                viewBroPage={false}
               ></AttributeRow>
               <AttributeRow
                 onAttributeValueChanged={setRangedAttack}
                 attributeData={getAttributeData("Ranged Attack")}
+                viewBroPage={false}
               ></AttributeRow>
               <AttributeRow
                 onAttributeValueChanged={setMeleeDefence}
                 attributeData={getAttributeData("Melee Defence")}
+                viewBroPage={false}
               ></AttributeRow>
               <AttributeRow
                 onAttributeValueChanged={setRangedDefence}
                 attributeData={getAttributeData("Ranged Defence")}
+                viewBroPage={false}
               ></AttributeRow>
             </Flex>
           </Flex>

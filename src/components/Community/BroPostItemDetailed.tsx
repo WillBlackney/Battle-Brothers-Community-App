@@ -199,11 +199,9 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
                 align="center"
                 bg="white"
                 borderRadius={4}
-                borderColor="blue"
-                borderWidth="1px"
                 width="50%"
                 height="100%"
-                justify="center"
+                justify="start"
                 direction="column"
               >
                 <AttributeRow
@@ -232,12 +230,11 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
                 align="center"
                 bg="white"
                 borderRadius={4}
-                borderColor="blue"
-                borderWidth="1px"
                 width="50%"
                 height="100%"
-                justify="center"
+                justify="start"
                 direction="column"
+                flex={"start"}
               >
                 <AttributeRow
                   initialStatValue={broBuild.meleeAttack}
