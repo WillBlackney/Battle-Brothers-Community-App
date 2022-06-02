@@ -82,6 +82,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         transaction.set(broBuildsDocRef, {
           creatorId: user?.uid,
           createdAt: serverTimestamp(),
+          userDisplayText: user?.email!.split("@")[0],
           buildName: buildName,
           id: uniqueId,
           numberOfComments: 0,

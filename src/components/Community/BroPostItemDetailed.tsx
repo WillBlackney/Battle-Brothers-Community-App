@@ -109,7 +109,7 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
           {broBuild.createdAt && (
             <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
               <Text color="gray.500">
-                Posted by u/{broBuild.creatorId}{" "}
+                Posted by u/{broBuild.userDisplayText}{" "}
                 {moment(new Date(broBuild.createdAt.seconds * 1000)).fromNow()}
               </Text>
             </Stack>
@@ -120,16 +120,15 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
           <Text fontSize="10pt">{broBuild.description}</Text>
         </Stack>
         {/* Attributes + Perks Wrapper*/}
-        <Flex borderColor="red" borderWidth="2px" height={"100%"}>
+        <Flex height={"100%"} align="center" justify={"space-evenly"}>
           {/* Perks Panel */}
           <Flex
             justify={"start"}
-            borderColor="blue"
-            borderWidth="2px"
             height={"300px"}
-            width="50%"
+            width="45%"
             direction={"column"}
             align="center"
+            borderWidth="2px"
           >
             <Text fontWeight={600}> Perks</Text>
             <Flex height={"50px"} m={2}>
@@ -164,12 +163,11 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
 
           <Flex
             justify={"start"}
-            borderColor="blue"
-            borderWidth="2px"
             height={"300px"}
-            width="50%"
+            width="45%"
             direction={"column"}
             align="center"
+            borderWidth="2px"
           >
             {/* Columns Fitter*/}
             <Text fontWeight={600}> Minimum Attributes</Text>
@@ -178,8 +176,6 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
               align="center"
               bg="white"
               borderRadius={4}
-              borderColor="red"
-              borderWidth="2px"
               width="100%"
               height="100%"
               justify="center"

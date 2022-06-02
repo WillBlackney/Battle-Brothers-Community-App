@@ -6,6 +6,7 @@ export interface BroBuild {
   id: string;
   buildName: string;
   description: string;
+  userDisplayText: string;
   creatorId: string;
   createdAt?: Timestamp;
   voteStatus: number;

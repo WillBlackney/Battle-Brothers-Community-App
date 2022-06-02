@@ -107,7 +107,7 @@ const BroPostItemFeed: React.FC<BroPostItemProps> = ({
           {broBuild.createdAt && (
             <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
               <Text color="gray.500">
-                Posted by u/{broBuild.creatorId}{" "}
+                Posted by u/{broBuild.userDisplayText}{" "} 
                 {moment(new Date(broBuild.createdAt.seconds * 1000)).fromNow()}
               </Text>
             </Stack>

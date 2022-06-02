@@ -6,7 +6,6 @@ import { useSetRecoilState } from "recoil";
 
 import { auth } from "../../firebase/clientApp";
 import NavbarRightContent from "./RightContent/NavbarRightContent";
-import SearchInput from "./SearchInput";
 import router from "next/router";
 import BroSearchTab from "./BroSearchTab";
 import CreateBroTab from "./CreateBroTab";
