@@ -8,20 +8,10 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
-import {
-  Flex,
-  Icon,
-  Link,
-  Skeleton,
-  Spinner,
-  Stack,
-  Text,
-  Image,
-} from "@chakra-ui/react";
+import { Flex, Icon, Spinner, Stack, Text, Image } from "@chakra-ui/react";
 import moment from "moment";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsDot, BsChat } from "react-icons/bs";
-import { FaReddit } from "react-icons/fa";
 import router, { useRouter } from "next/router";
 import PerkIcon from "../../pages/PerkIcon";
 import AttributeRow from "../../pages/AttributeRow";
@@ -270,7 +260,7 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
             cursor="pointer"
           >
             <Icon as={BsChat} mr={2} />
-            <Text fontSize="9pt">XX</Text>
+            <Text fontSize="9pt">{broBuild.numberOfComments}</Text>
           </Flex>
           <Flex
             align="center"

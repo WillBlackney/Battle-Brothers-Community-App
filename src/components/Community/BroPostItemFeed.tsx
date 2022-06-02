@@ -153,7 +153,7 @@ const BroPostItemFeed: React.FC<BroPostItemProps> = ({
             cursor="pointer"
           >
             <Icon as={BsChat} mr={2} />
-            <Text fontSize="9pt">XX</Text>
+            <Text fontSize="9pt">{broBuild.numberOfComments}</Text>
           </Flex>
           <Flex
             align="center"
