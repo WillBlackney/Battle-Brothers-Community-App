@@ -12,6 +12,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Spacer,
   Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -73,7 +74,18 @@ const AttributeRow: React.FC<AttributeRowProps> = ({
         </PopoverTrigger>
         <PopoverContent>
           <PopoverArrow />
-          <PopoverHeader>{attributeData?.attributeName}</PopoverHeader>
+          <PopoverHeader>
+            <Flex width={"100%"} justify="center" align={"center"}>
+              {" "}
+              {attributeData?.attributeName} <Spacer />
+              <Image
+                height="30px"
+                width={"30px"}
+                src={attributeData?.iconImageURL}
+              ></Image>
+            </Flex>
+          </PopoverHeader>
+
           <PopoverBody>{attributeData?.description}</PopoverBody>
         </PopoverContent>
       </Popover>

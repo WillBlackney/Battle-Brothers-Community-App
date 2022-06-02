@@ -13,6 +13,7 @@ import {
   PopoverCloseButton,
   PopoverAnchor,
   Button,
+  Spacer,
 } from "@chakra-ui/react";
 type PerkIconProps = {
   perkData?: PerkData;
@@ -77,7 +78,18 @@ const PerkIcon: React.FC<PerkIconProps> = ({
         </PopoverTrigger>
         <PopoverContent>
           <PopoverArrow />
-          <PopoverHeader>{perkData?.perkName}</PopoverHeader>
+          <PopoverHeader>
+            <Flex width={"100%"} justify="center" align={"center"}>
+              {" "}
+              {perkData?.perkName} <Spacer />
+              <Image
+                height="30px"
+                width={"30px"}
+                src={perkData?.perkImageURL}
+              ></Image>
+            </Flex>
+          </PopoverHeader>
+
           <PopoverBody>{perkData?.description}</PopoverBody>
         </PopoverContent>
       </Popover>

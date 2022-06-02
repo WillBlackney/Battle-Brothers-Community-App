@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
 
 import { auth } from "../../firebase/clientApp";
-import RightContent from "./RightContent";
+import NavbarRightContent from "./RightContent/NavbarRightContent";
 import SearchInput from "./SearchInput";
 import router from "next/router";
 import BroSearchTab from "./BroSearchTab";
@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
         <BroSearchTab></BroSearchTab>
         <CreateBroTab></CreateBroTab>
       </Flex>
-      <RightContent user={user as User} />
+      <NavbarRightContent user={user as User} />
     </Flex>
   );
 };

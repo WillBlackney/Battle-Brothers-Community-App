@@ -1,7 +1,7 @@
 import React from "react";
 import { Flex } from "@chakra-ui/react";
 import { User } from "firebase/auth";
-import AuthModal from "../../Modal/Auth";
+import AuthModal from "../../Modal/Auth/AuthModal";
 import AuthButtons from "./AuthButtons";
 import Icons from "./Icons";
 import MenuWrapper from "./ProfileMenu/MenuWrapper";
@@ -10,7 +10,7 @@ type RightContentProps = {
   user: User;
 };
 
-const RightContent: React.FC<RightContentProps> = ({ user }) => {
+const NavbarRightContent: React.FC<RightContentProps> = ({ user }) => {
   return (
     <>
       <AuthModal />
@@ -21,4 +21,4 @@ const RightContent: React.FC<RightContentProps> = ({ user }) => {
     </>
   );
 };
-export default RightContent;
+export default NavbarRightContent;

@@ -1,29 +1,20 @@
 import { Flex, Input, Button, Text, Textarea } from "@chakra-ui/react";
 import { auth, firestore } from "../firebase/clientApp";
-import {
-  doc,
-  getDoc,
-  runTransaction,
-  serverTimestamp,
-  setDoc,
-  Transaction,
-} from "firebase/firestore";
+import { doc, runTransaction, serverTimestamp } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { v4 as uuidv4 } from "uuid";
-import PageContentLayout from "../components/Layout/PageContent";
 import AttributeRow from "./AttributeRow";
 import { getAttributeData } from "../data controllers/AttributeDataController";
 import PerkIcon from "./PerkIcon";
-import {
-  AllPerkData,
-  getPerkDataByName,
-  PerkData,
-} from "../data controllers/PerkDataController";
+import { AllPerkData, PerkData } from "../data controllers/PerkDataController";
+import PageContentLayout from "../components/Layout/PageContent";
+import { useRouter } from "next/router";
 
 type CreateBroPageProps = {};
 
 const CreateBroPage: React.FC<CreateBroPageProps> = () => {
+  const router = useRouter();
   const [user] = useAuthState(auth);
   const [buildName, setBuildName] = useState("");
   const [charsRemaining, setCharsRemaining] = useState(30);
@@ -79,11 +70,9 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
     }
 
     setLoading(true);
+    setError("");
 
     try {
-      // TO DO: generate a unique ID for the bro
-      // Create the bro document in firestore
-
       const uniqueId = uuidv4();
       console.log("unique id generated: ", uniqueId);
       const broBuildsDocRef = doc(firestore, "brobuilds", uniqueId);
@@ -126,6 +115,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
     }
 
     setLoading(false);
+    if (error == "" && router) router.back();
   };
 
   const handleBuildNameChange = (
@@ -147,387 +137,333 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
 
   return (
     // Main Container
-    <Flex
-      align="center"
-      justify="center"
-      direction="column"
-      bg="white"
-      width={"90%"}
-      height="100%"
-      borderRadius={4}
-      p={2}
-      m={5}
-    >
-      {/* Name Row */}
+    <Flex width={"90%"} height={"100%"} align="center" justify={"center"}>
       <Flex
         align="center"
-        borderRadius={4}
-        width="100%"
         justify="center"
-        mb={4}
-      >
-        <Input
-          onChange={handleBuildNameChange}
-          placeholder="Build name..."
-          fontSize="10pt"
-          _placeholder={{ color: "gray.500" }}
-          _hover={{
-            bg: "white",
-            border: "1px solid",
-            borderColor: "blue.500",
-          }}
-          _focus={{
-            outline: "none",
-            bg: "white",
-            border: "1px solid",
-            borderColor: "blue.500",
-          }}
-          bg="gray.50"
-          borderColor="gray.200"
-          height="40px"
-          borderRadius={4}
-          width="30%"
-          color={charsRemaining === 0 ? "red" : "gray.500"}
-        />
-      </Flex>
-
-      {/* Perks Row */}
-      <Flex
         direction="column"
-        align="center"
-        bg="gray.100"
+        bg="white"
+        width={"80%"}
+        height="100%"
         borderRadius={4}
-        width="100%"
-        height="350px"
-        justify="start"
-        mb={4}
+        p={2}
+        m={4}
       >
-        <Text>Perk Points: {perkPoints}</Text>
-        {/*Tier 1 Perks */}
+        {/* Name Row */}
         <Flex
           align="center"
           borderRadius={4}
           width="100%"
-          height="45px"
           justify="center"
+          mb={4}
         >
-          {AllPerkData.filter((p) => p.tierLevel === 1).map((perk) => (
-            <PerkIcon
-              key={perk.perkName}
-              perkData={perk}
-              onPerkClicked={onPerkIconClicked}
-              hasPerkPoints={perkPoints > 0}
-              viewBroPage={false}
-            ></PerkIcon>
-          ))}
+          <Input
+            onChange={handleBuildNameChange}
+            placeholder="Build name..."
+            fontSize="10pt"
+            _placeholder={{ color: "gray.500" }}
+            _hover={{
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            _focus={{
+              outline: "none",
+              bg: "white",
+              border: "1px solid",
+              borderColor: "blue.500",
+            }}
+            bg="gray.50"
+            borderColor="gray.200"
+            height="40px"
+            borderRadius={4}
+            width="30%"
+            color={charsRemaining === 0 ? "red" : "gray.500"}
+          />
         </Flex>
-        {/*Tier 2 Perks */}
-        <Flex
-          align="center"
-          borderRadius={4}
-          width="100%"
-          height="45px"
-          justify="center"
-        >
-          {AllPerkData.filter((p) => p.tierLevel === 2).map((perk) => (
-            <PerkIcon
-              key={perk.perkName}
-              perkData={perk}
-              onPerkClicked={onPerkIconClicked}
-              hasPerkPoints={perkPoints > 0}
-              viewBroPage={false}
-            ></PerkIcon>
-          ))}
-        </Flex>
-        {/*Tier 3 Perks */}
-        <Flex
-          align="center"
-          borderRadius={4}
-          width="100%"
-          height="45px"
-          justify="center"
-        >
-          {AllPerkData.filter((p) => p.tierLevel === 3).map((perk) => (
-            <PerkIcon
-              key={perk.perkName}
-              perkData={perk}
-              onPerkClicked={onPerkIconClicked}
-              hasPerkPoints={perkPoints > 0}
-              viewBroPage={false}
-            ></PerkIcon>
-          ))}
-        </Flex>
-        {/*Tier 4 Perks */}
-        <Flex
-          align="center"
-          borderRadius={4}
-          width="100%"
-          height="45px"
-          justify="center"
-        >
-          {AllPerkData.filter((p) => p.tierLevel === 4).map((perk) => (
-            <PerkIcon
-              key={perk.perkName}
-              perkData={perk}
-              onPerkClicked={onPerkIconClicked}
-              hasPerkPoints={perkPoints > 0}
-              viewBroPage={false}
-            ></PerkIcon>
-          ))}
-        </Flex>
-        {/*Tier 5 Perks */}
-        <Flex
-          align="center"
-          borderRadius={4}
-          width="100%"
-          height="45px"
-          justify="center"
-        >
-          {AllPerkData.filter((p) => p.tierLevel === 5).map((perk) => (
-            <PerkIcon
-              key={perk.perkName}
-              perkData={perk}
-              onPerkClicked={onPerkIconClicked}
-              hasPerkPoints={perkPoints > 0}
-              viewBroPage={false}
-            ></PerkIcon>
-          ))}
-        </Flex>
-        {/*Tier 6 Perks */}
-        <Flex
-          align="center"
-          borderRadius={4}
-          width="100%"
-          height="45px"
-          justify="center"
-        >
-          {AllPerkData.filter((p) => p.tierLevel === 6).map((perk) => (
-            <PerkIcon
-              key={perk.perkName}
-              perkData={perk}
-              onPerkClicked={onPerkIconClicked}
-              hasPerkPoints={perkPoints > 0}
-              viewBroPage={false}
-            ></PerkIcon>
-          ))}
-        </Flex>
-        {/*Tier 7 Perks */}
-        <Flex
-          align="center"
-          borderRadius={4}
-          width="100%"
-          height="45px"
-          justify="center"
-        >
-          {AllPerkData.filter((p) => p.tierLevel === 7).map((perk) => (
-            <PerkIcon
-              key={perk.perkName}
-              perkData={perk}
-              onPerkClicked={onPerkIconClicked}
-              hasPerkPoints={perkPoints > 0}
-              viewBroPage={false}
-            ></PerkIcon>
-          ))}
-        </Flex>
-      </Flex>
 
-      {/* Stats + Avatar Row */}
-      <Flex
-        justifyContent="space-evenly"
-        bg="gray.100"
-        borderRadius={4}
-        width="100%"
-        height="300px"
-        justify="center"
-        align={"center"}
-        mb={4}
-      >
-        {/*Avatar */}
+        {/* Perks Row */}
         <Flex
+          direction="column"
           align="center"
-          bg="white"
+          bg="gray.100"
           borderRadius={4}
-          width="30%"
-          height="90%"
-          justify="center"
+          width="100%"
+          height="350px"
+          justify="start"
+          mb={4}
         >
-          Avatar
+          <Text>Perk Points: {perkPoints}</Text>
+          {/*Tier 1 Perks */}
+          <Flex
+            align="center"
+            borderRadius={4}
+            width="100%"
+            height="45px"
+            justify="center"
+          >
+            {AllPerkData.filter((p) => p.tierLevel === 1).map((perk) => (
+              <PerkIcon
+                key={perk.perkName}
+                perkData={perk}
+                onPerkClicked={onPerkIconClicked}
+                hasPerkPoints={perkPoints > 0}
+                viewBroPage={false}
+              ></PerkIcon>
+            ))}
+          </Flex>
+          {/*Tier 2 Perks */}
+          <Flex
+            align="center"
+            borderRadius={4}
+            width="100%"
+            height="45px"
+            justify="center"
+          >
+            {AllPerkData.filter((p) => p.tierLevel === 2).map((perk) => (
+              <PerkIcon
+                key={perk.perkName}
+                perkData={perk}
+                onPerkClicked={onPerkIconClicked}
+                hasPerkPoints={perkPoints > 0}
+                viewBroPage={false}
+              ></PerkIcon>
+            ))}
+          </Flex>
+          {/*Tier 3 Perks */}
+          <Flex
+            align="center"
+            borderRadius={4}
+            width="100%"
+            height="45px"
+            justify="center"
+          >
+            {AllPerkData.filter((p) => p.tierLevel === 3).map((perk) => (
+              <PerkIcon
+                key={perk.perkName}
+                perkData={perk}
+                onPerkClicked={onPerkIconClicked}
+                hasPerkPoints={perkPoints > 0}
+                viewBroPage={false}
+              ></PerkIcon>
+            ))}
+          </Flex>
+          {/*Tier 4 Perks */}
+          <Flex
+            align="center"
+            borderRadius={4}
+            width="100%"
+            height="45px"
+            justify="center"
+          >
+            {AllPerkData.filter((p) => p.tierLevel === 4).map((perk) => (
+              <PerkIcon
+                key={perk.perkName}
+                perkData={perk}
+                onPerkClicked={onPerkIconClicked}
+                hasPerkPoints={perkPoints > 0}
+                viewBroPage={false}
+              ></PerkIcon>
+            ))}
+          </Flex>
+          {/*Tier 5 Perks */}
+          <Flex
+            align="center"
+            borderRadius={4}
+            width="100%"
+            height="45px"
+            justify="center"
+          >
+            {AllPerkData.filter((p) => p.tierLevel === 5).map((perk) => (
+              <PerkIcon
+                key={perk.perkName}
+                perkData={perk}
+                onPerkClicked={onPerkIconClicked}
+                hasPerkPoints={perkPoints > 0}
+                viewBroPage={false}
+              ></PerkIcon>
+            ))}
+          </Flex>
+          {/*Tier 6 Perks */}
+          <Flex
+            align="center"
+            borderRadius={4}
+            width="100%"
+            height="45px"
+            justify="center"
+          >
+            {AllPerkData.filter((p) => p.tierLevel === 6).map((perk) => (
+              <PerkIcon
+                key={perk.perkName}
+                perkData={perk}
+                onPerkClicked={onPerkIconClicked}
+                hasPerkPoints={perkPoints > 0}
+                viewBroPage={false}
+              ></PerkIcon>
+            ))}
+          </Flex>
+          {/*Tier 7 Perks */}
+          <Flex
+            align="center"
+            borderRadius={4}
+            width="100%"
+            height="45px"
+            justify="center"
+          >
+            {AllPerkData.filter((p) => p.tierLevel === 7).map((perk) => (
+              <PerkIcon
+                key={perk.perkName}
+                perkData={perk}
+                onPerkClicked={onPerkIconClicked}
+                hasPerkPoints={perkPoints > 0}
+                viewBroPage={false}
+              ></PerkIcon>
+            ))}
+          </Flex>
         </Flex>
-        {/*Items */}
-        <Flex
-          align="center"
-          bg="white"
-          borderRadius={4}
-          width="30%"
-          height="90%"
-          justify="center"
-        >
-          Items
-        </Flex>
-        {/*Stats*/}
-        {/*Colums + Header Text Fitter*/}
-        <Flex direction="column" justify="center" align="center" height="100%">
-          {/* Columns Fitter*/}
-          <Text width={"100%"} textAlign="center">
-            Minimum Attribute Levels
-          </Text>
 
+        {/* Stats + Avatar Row */}
+        <Flex
+          justifyContent="space-evenly"
+          bg="gray.100"
+          borderRadius={4}
+          width="100%"
+          height="300px"
+          justify="center"
+          align={"center"}
+          mb={4}
+        >
+          {/*Avatar */}
           <Flex
             align="center"
             bg="white"
             borderRadius={4}
-            width="100%"
-            height="80%"
+            width="30%"
+            height="90%"
             justify="center"
           >
-            {/*Stat Column 1*/}
+            Avatar
+          </Flex>
+          {/*Items */}
+          <Flex
+            align="center"
+            bg="white"
+            borderRadius={4}
+            width="30%"
+            height="90%"
+            justify="center"
+          >
+            Items
+          </Flex>
+          {/*Stats*/}
+          {/*Colums + Header Text Fitter*/}
+          <Flex
+            direction="column"
+            justify="center"
+            align="center"
+            height="100%"
+          >
+            {/* Columns Fitter*/}
+            <Text width={"100%"} textAlign="center">
+              Minimum Attribute Levels
+            </Text>
+
             <Flex
               align="center"
               bg="white"
               borderRadius={4}
-              width="50%"
-              height="90%"
-              justify="start"
-              direction="column"
+              width="100%"
+              height="80%"
+              justify="center"
             >
-              <AttributeRow
-                onAttributeValueChanged={setHealth}
-                attributeData={getAttributeData("Health")}
-                viewBroPage={false}
-              ></AttributeRow>
-              <AttributeRow
-                onAttributeValueChanged={setFatigue}
-                attributeData={getAttributeData("Fatigue")}
-                viewBroPage={false}
-              ></AttributeRow>
-              <AttributeRow
-                onAttributeValueChanged={setResolve}
-                attributeData={getAttributeData("Resolve")}
-                viewBroPage={false}
-              ></AttributeRow>
-              <AttributeRow
-                onAttributeValueChanged={setInitiative}
-                attributeData={getAttributeData("Initiative")}
-                viewBroPage={false}
-              ></AttributeRow>
-            </Flex>
-            {/*Stat Column 2*/}
-            <Flex
-              align="center"
-              bg="white"
-              borderRadius={4}
-              width="50%"
-              height="90%"
-              justify="start"
-              direction="column"
-            >
-              <AttributeRow
-                onAttributeValueChanged={setMeleeAttack}
-                attributeData={getAttributeData("Melee Attack")}
-                viewBroPage={false}
-              ></AttributeRow>
-              <AttributeRow
-                onAttributeValueChanged={setRangedAttack}
-                attributeData={getAttributeData("Ranged Attack")}
-                viewBroPage={false}
-              ></AttributeRow>
-              <AttributeRow
-                onAttributeValueChanged={setMeleeDefence}
-                attributeData={getAttributeData("Melee Defence")}
-                viewBroPage={false}
-              ></AttributeRow>
-              <AttributeRow
-                onAttributeValueChanged={setRangedDefence}
-                attributeData={getAttributeData("Ranged Defence")}
-                viewBroPage={false}
-              ></AttributeRow>
+              {/*Stat Column 1*/}
+              <Flex
+                align="center"
+                bg="white"
+                borderRadius={4}
+                width="50%"
+                height="90%"
+                justify="start"
+                direction="column"
+              >
+                <AttributeRow
+                  onAttributeValueChanged={setHealth}
+                  attributeData={getAttributeData("Health")}
+                  viewBroPage={false}
+                ></AttributeRow>
+                <AttributeRow
+                  onAttributeValueChanged={setFatigue}
+                  attributeData={getAttributeData("Fatigue")}
+                  viewBroPage={false}
+                ></AttributeRow>
+                <AttributeRow
+                  onAttributeValueChanged={setResolve}
+                  attributeData={getAttributeData("Resolve")}
+                  viewBroPage={false}
+                ></AttributeRow>
+                <AttributeRow
+                  onAttributeValueChanged={setInitiative}
+                  attributeData={getAttributeData("Initiative")}
+                  viewBroPage={false}
+                ></AttributeRow>
+              </Flex>
+              {/*Stat Column 2*/}
+              <Flex
+                align="center"
+                bg="white"
+                borderRadius={4}
+                width="50%"
+                height="90%"
+                justify="start"
+                direction="column"
+              >
+                <AttributeRow
+                  onAttributeValueChanged={setMeleeAttack}
+                  attributeData={getAttributeData("Melee Attack")}
+                  viewBroPage={false}
+                ></AttributeRow>
+                <AttributeRow
+                  onAttributeValueChanged={setRangedAttack}
+                  attributeData={getAttributeData("Ranged Attack")}
+                  viewBroPage={false}
+                ></AttributeRow>
+                <AttributeRow
+                  onAttributeValueChanged={setMeleeDefence}
+                  attributeData={getAttributeData("Melee Defence")}
+                  viewBroPage={false}
+                ></AttributeRow>
+                <AttributeRow
+                  onAttributeValueChanged={setRangedDefence}
+                  attributeData={getAttributeData("Ranged Defence")}
+                  viewBroPage={false}
+                ></AttributeRow>
+              </Flex>
             </Flex>
           </Flex>
         </Flex>
-      </Flex>
 
-      {/* Description Row*/}
-      <Flex
-        align="center"
-        direction={"column"}
-        borderRadius={4}
-        width="100%"
-        height="200px"
-        justify="start"
-        mb={4}
-      >
-        <Text>Build Description</Text>
-        <Textarea
-          placeholder="Tell us about this build ! What are it's strengths and weaknesses?"
-          size="sm"
-          height={"100%"}
-          resize={"vertical"}
-          onChange={handleDescriptionChange}
-        />
-      </Flex>
-      <Button
-        width="150px"
-        m={5}
-        onClick={handlePublishBroBuild}
-        isLoading={loading}
-      >
-        Publish
-      </Button>
-    </Flex>
-
-    /*
-    <Flex
-      direction="column"
-      bg="white"
-      width={'auto'}
-      height="auto"
-      borderRadius={4}
-      border="px solid"
-      borderColor="gray.300"
-      p={2}
-      m={4}
-    >
-      <Flex
-        align="center"
-        bg="white"
-        height="60px"
-        p={2}
-        width="100%"
-        borderColor="gray.300"
-      >
-        <Input
-          onChange={handleChange}
-          placeholder="Build name..."
-          fontSize="10pt"
-          _placeholder={{ color: "gray.500" }}
-          _hover={{
-            bg: "white",
-            border: "1px solid",
-            borderColor: "blue.500",
-          }}
-          _focus={{
-            outline: "none",
-            bg: "white",
-            border: "1px solid",
-            borderColor: "blue.500",
-          }}
-          bg="gray.50"
-          borderColor="gray.200"
-          height="40px"
+        {/* Description Row*/}
+        <Flex
+          align="center"
+          direction={"column"}
           borderRadius={4}
-          width="50%"
-          color={charsRemaining === 0 ? "red" : "gray.500"}
-        />
-      </Flex>
-      <Flex
-        justify="center"
-        align="center"
-        bg="white"
-        height="60px"
-        borderColor="gray.300"
-        width="100%"
-        p={3}
-      >
+          width="100%"
+          height="200px"
+          justify="start"
+          bg="gray.100"
+        >
+          <Text m={2}>Build Description</Text>
+          <Textarea
+            placeholder="Tell us about this build ! What are it's strengths and weaknesses?"
+            size="sm"
+            height={"90%"}
+            width={"90%"}
+            resize={"vertical"}
+            mb={5}
+            bg="white"
+            onChange={handleDescriptionChange}
+          />
+        </Flex>
         <Button
           width="150px"
           m={5}
@@ -536,15 +472,8 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
         >
           Publish
         </Button>
-        <Button width="150px" m={5}>
-          Save Draft
-        </Button>
       </Flex>
-      <Text color="red" fontSize="9pt" pt={1}>
-        {error}
-      </Text>
     </Flex>
-    */
   );
 };
 export default CreateBroPage;

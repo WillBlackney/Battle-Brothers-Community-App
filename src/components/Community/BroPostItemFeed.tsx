@@ -8,21 +8,11 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
-import {
-  Flex,
-  Icon,
-  Link,
-  Skeleton,
-  Spinner,
-  Stack,
-  Text,
-  Image,
-} from "@chakra-ui/react";
+import { Flex, Icon, Spinner, Stack, Text, Image } from "@chakra-ui/react";
 import moment from "moment";
 import { AiOutlineDelete } from "react-icons/ai";
-import { BsDot, BsChat } from "react-icons/bs";
-import { FaReddit } from "react-icons/fa";
-import router, { useRouter } from "next/router";
+import { BsChat } from "react-icons/bs";
+import { useRouter } from "next/router";
 
 type BroPostItemProps = {
   broBuild: BroBuild;
@@ -59,7 +49,6 @@ const BroPostItemFeed: React.FC<BroPostItemProps> = ({
 
       console.log("Bro build successfully deleted");
 
-      // Could proably move this logic to onDeletePost function
       if (singlePostView && router) router.back();
     } catch (error: any) {
       console.log("Error deleting bro build", error.message);
@@ -126,23 +115,6 @@ const BroPostItemFeed: React.FC<BroPostItemProps> = ({
           <Text fontSize="12pt" fontWeight={600}>
             {broBuild.buildName}
           </Text>
-          {/*<Text fontSize="10pt">{post.body}</Text>*/}
-          {/* post.imageURL && (
-            <Flex justify="center" align="center" p={2}>
-              {loadingImage && (
-                <Skeleton height="200px" width="100%" borderRadius={4} />
-              )}
-              <Image
-                // width="80%"
-                // maxWidth="500px"
-                maxHeight="460px"
-                src={post.imageURL}
-                display={loadingImage ? "none" : "unset"}
-                onLoad={() => setLoadingImage(false)}
-                alt="Post Image"
-              />
-            </Flex>
-          )*/}
         </Stack>
         <Flex ml={1} mb={0.5} color="gray.500" fontWeight={600}>
           <Flex
