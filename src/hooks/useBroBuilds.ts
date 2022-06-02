@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { authModalState } from "../atoms/authModalAtom";
+import { authModalState } from "../atoms/AuthModalAtom";
 import { BroBuild, broBuildState, BroBuildVote } from "../atoms/broBuildsAtom";
 import { auth, firestore, storage } from "../firebase/clientApp";
 

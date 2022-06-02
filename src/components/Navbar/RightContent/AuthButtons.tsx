@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { authModalState } from "../../../atoms/authModalAtom";
+import { authModalState } from "../../../atoms/AuthModalAtom";
 import AuthModal from "../../Modal/Auth";
 
 type AuthButtonsProps = {};

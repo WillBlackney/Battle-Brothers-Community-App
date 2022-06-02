@@ -1,23 +1,9 @@
 import { Button, Flex, Icon, Input } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import React from "react";
-import useDirectory from "../../hooks/useDirectory";
 
 type BroSearchFilterPanelProps = {};
 
 const BroSearchFilterPanel: React.FC<BroSearchFilterPanelProps> = () => {
-  const router = useRouter();
-  const { toggleMenuOpen } = useDirectory();
-  const onClick = () => {
-    // Could check for user to open auth modal before redirecting to submit
-    const { community } = router.query;
-    if (community) {
-      router.push(`/r/${router.query.community}/submit`);
-      return;
-    }
-    // Open directory menu to select community to post to
-    toggleMenuOpen();
-  };
   return (
     <Flex
       direction="column"
@@ -37,7 +23,6 @@ const BroSearchFilterPanel: React.FC<BroSearchFilterPanelProps> = () => {
         width="100%"
         borderColor="gray.300"
       >
-        {/*<Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />*/}
         <Input
           placeholder="Search for a bro..."
           fontSize="10pt"
@@ -57,7 +42,6 @@ const BroSearchFilterPanel: React.FC<BroSearchFilterPanelProps> = () => {
           borderColor="gray.200"
           height="40px"
           borderRadius={4}
-          onClick={onClick}
           width="100%"
         />
       </Flex>

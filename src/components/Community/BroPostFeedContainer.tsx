@@ -78,7 +78,7 @@ const BroPostFeedContainer: React.FC = () => {
     // Order by newest
     if (filterCondition === "new") {
       builds = Object.values(builds).sort(
-        (a, b) => b.createdAt.toMillis() - a.createdAt.toMillis()
+        (a, b) => b.createdAt!.toMillis() - a.createdAt!.toMillis()
       );
     }
 
