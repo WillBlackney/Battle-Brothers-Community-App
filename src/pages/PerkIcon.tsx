@@ -8,13 +8,11 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-  Button,
   Spacer,
 } from "@chakra-ui/react";
+
+// Props
 type PerkIconProps = {
   perkData?: PerkData;
   onPerkClicked?(perkDataClicked: PerkData): void;
@@ -28,9 +26,11 @@ const PerkIcon: React.FC<PerkIconProps> = ({
   hasPerkPoints,
   viewBroPage,
 }) => {
+  // State
   const [selected, setSelected] = useState(viewBroPage);
   const [mousedOver, setMousedOver] = useState(false);
 
+  // Mouse Events
   const mouseEnter = () => {
     setMousedOver(true);
   };
@@ -39,12 +39,17 @@ const PerkIcon: React.FC<PerkIconProps> = ({
   };
   const mouseClick = () => {
     console.log("PerkIcon.mouseClick(): ", perkData?.perkName);
+
+    // Click logic not relevant when not on the 'view bro post' page, return
     if (viewBroPage) return;
+
+    // If selected, handle deselect (remove perk + refund a perk point)
     if (selected) {
       setSelected(false);
       setMousedOver(false);
     } else if (!selected) {
       if (
+        // Student is a free perk (it get refunded at level 10), so don't modify perk points when its selected/deselected
         perkData?.perkName === "Student" ||
         (perkData?.perkName !== "Student" && hasPerkPoints)
       ) {
@@ -53,6 +58,7 @@ const PerkIcon: React.FC<PerkIconProps> = ({
       }
     }
 
+    // Handle select perk, if on 'build bro' page
     if (onPerkClicked && perkData) onPerkClicked(perkData);
   };
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { ModalView } from "../../../atoms/AuthModalAtom";
+import { ModalView } from "../../../atoms/authModalAtom";
 import { auth } from "../../../firebase/clientApp";
 import { FIREBASE_ERRORS } from "../../../firebase/errors";
 import InputItem from "../../Layout/InputItem";
@@ -11,26 +11,31 @@ type LoginProps = {
 };
 
 const Login: React.FC<LoginProps> = ({ toggleView }) => {
+  // State
+  const [formError, setFormError] = useState("");
+  const [signInWithEmailAndPassword, _, loading, authError] =
+    useSignInWithEmailAndPassword(auth);
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const [formError, setFormError] = useState("");
 
-  const [signInWithEmailAndPassword, _, loading, authError] =
-    useSignInWithEmailAndPassword(auth);
-
+  // Input + Form Submission Logic
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    // Prevent click events from UI elements happening at the same time
     event.preventDefault();
+
+    // Reset form error message
     if (formError) setFormError("");
+
+    // Validate email
     if (!form.email.includes("@")) {
       return setFormError("Please enter a valid email");
     }
 
-    // Valid form inputs
+    // Form input from user is valid, try sign in!
     signInWithEmailAndPassword(form.email, form.password);
   };
-
   const onChange = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +45,7 @@ const Login: React.FC<LoginProps> = ({ toggleView }) => {
     }));
   };
 
+  // JSX
   return (
     <form onSubmit={onSubmit}>
       <InputItem

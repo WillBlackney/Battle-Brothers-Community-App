@@ -1,6 +1,14 @@
 import React from "react";
-
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useRecoilState } from "recoil";
+import { authModalState } from "../../../../atoms/authModalAtom";
+import { auth } from "../../../../firebase/clientApp";
+import NoUserList from "./NoUserList";
+import UserList from "./UserList";
+import { FaRedditSquare } from "react-icons/fa";
+import { VscAccount } from "react-icons/vsc";
+import { IoSparkles } from "react-icons/io5";
 import {
   Box,
   Flex,
@@ -10,17 +18,6 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilState } from "recoil";
-import { authModalState } from "../../../../atoms/AuthModalAtom";
-import { auth } from "../../../../firebase/clientApp";
-
-import NoUserList from "./NoUserList";
-import UserList from "./UserList";
-
-import { FaRedditSquare } from "react-icons/fa";
-import { VscAccount } from "react-icons/vsc";
-import { IoSparkles } from "react-icons/io5";
 
 type MenuWrapperProps = {};
 

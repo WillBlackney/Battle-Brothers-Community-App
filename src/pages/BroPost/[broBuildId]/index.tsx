@@ -6,7 +6,7 @@ import { Flex, Stack } from "@chakra-ui/react";
 import useBroBuilds from "../../../hooks/useBroBuilds";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
-import BroPostItemDetailed from "../../../components/Community/BroPostItemDetailed";
+import BroPostItemDetailed from "../BroPostItemDetailed";
 import BuildComments from "../../../components/Comments/BuildComments";
 import { User } from "firebase/auth";
 

@@ -9,9 +9,9 @@ const BroPostPageNotFound: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       minHeight="60vh"
-      textColor={'white'}
+      textColor={"white"}
     >
-      Sorry, this bro build does not exist or has been deleted.
+      Sorry, this bro does not exist or has been deleted.
       <Link href="/">
         <Button mt={4}>GO HOME</Button>
       </Link>

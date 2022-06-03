@@ -10,10 +10,12 @@ import BroPostItemFeed from "./BroPostItemFeed";
 type FilterOptions = "new" | "popularAllTime" | "popularRecent";
 
 const BroPostFeedContainer: React.FC = () => {
+  // State
   const [filterCondition, setFilterCondition] = useState<FilterOptions>("new");
   const [searchTerm, setSearchTerm] = useState("");
   const [user] = useAuthState(auth);
-  const [loading, setLoading] = useState(false);
+
+  // Hooks
   const {
     broBuildsStateValue,
     setBroBuildsStateValue,
@@ -21,14 +23,10 @@ const BroPostFeedContainer: React.FC = () => {
     onSelectBroBuild,
     onDeleteBroBuild,
   } = useBroBuilds();
-  const onSearchTermInputChanged = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    console.log(searchTerm);
-    const newValue = event.target.value;
-    setSearchTerm(newValue);
-  };
+
+  // Getters
   const getBroBuildPosts = async () => {
+    // Get bro builds data from DB
     try {
       const postQuery = query(collection(firestore, "brobuilds"));
       const postDocs = await getDocs(postQuery);
@@ -37,7 +35,7 @@ const BroPostFeedContainer: React.FC = () => {
         ...doc.data(),
       }));
 
-      console.log("raw posts: ", posts);
+      // Update client side global state with newly fetched data
       setBroBuildsStateValue((prev) => ({
         ...prev,
         allBroBuilds: posts as BroBuild[],
@@ -46,29 +44,6 @@ const BroPostFeedContainer: React.FC = () => {
       console.log("getBroBuildPosts error: ", error.message);
     }
   };
-
-  const onNewFilterButtonClicked = () => {
-    console.log("onNewFilterButtonClicked");
-    setFilterCondition("new");
-    return;
-  };
-  const onPopularAllTimeFilterButtonClicked = () => {
-    console.log("onPopularAllTimeFilterButtonClicked");
-    setFilterCondition("popularAllTime");
-    return;
-  };
-  const onPopularRecentFilterButtonClicked = () => {
-    console.log("onPopularRecentFilterButtonClicked");
-    setFilterCondition("popularRecent");
-    return;
-  };
-
-  useEffect(() => {
-    getBroBuildPosts();
-  }, []);
-
-  useEffect(() => {}, [searchTerm]);
-
   const filteredBuilds = (): BroBuild[] => {
     // Filter by search term
     let builds = broBuildsStateValue.allBroBuilds.filter((build) =>
@@ -98,6 +73,35 @@ const BroPostFeedContainer: React.FC = () => {
     return builds;
   };
 
+  // Input Events
+  const onSearchTermInputChanged = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    console.log(searchTerm);
+    const newValue = event.target.value;
+    setSearchTerm(newValue);
+  };
+  const onNewFilterButtonClicked = () => {
+    console.log("onNewFilterButtonClicked");
+    setFilterCondition("new");
+    return;
+  };
+  const onPopularAllTimeFilterButtonClicked = () => {
+    setFilterCondition("popularAllTime");
+    return;
+  };
+  const onPopularRecentFilterButtonClicked = () => {
+    setFilterCondition("popularRecent");
+    return;
+  };
+
+  // Effects
+  useEffect(() => {
+    // Fetch data from DB on initial page load
+    getBroBuildPosts();
+  }, []);
+
+  // JSX
   return (
     <>
       <Flex

@@ -1,3 +1,10 @@
+import { firestore } from "../../firebase/clientApp";
+import { useSetRecoilState } from "recoil";
+import CommentItem, { Comment } from "./CommentItem";
+import { User } from "firebase/auth";
+import React, { useEffect, useState } from "react";
+import { BroBuild, broBuildState } from "../../atoms/broBuildsAtom";
+import CommentInput from "./CommentInput";
 import {
   Box,
   Flex,
@@ -6,16 +13,9 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { async } from "@firebase/util";
-import { User } from "firebase/auth";
-import React, { useEffect, useState } from "react";
-import { BroBuild, broBuildState } from "../../atoms/broBuildsAtom";
-import CommentInput from "./CommentInput";
-import { authModalState } from "../../atoms/AuthModalAtom";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
   increment,
   orderBy,
@@ -25,10 +25,8 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
-import { firestore } from "../../firebase/clientApp";
-import { useSetRecoilState } from "recoil";
-import CommentItem, { Comment } from "./CommentItem";
 
+// Props
 type BuildCommentsProps = {
   user: User;
   selectedPost: BroBuild | null;
@@ -38,20 +36,54 @@ const BuildComments: React.FC<BuildCommentsProps> = ({
   user,
   selectedPost,
 }) => {
+  // State
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState<Comment[]>([]);
   const [fetchLoading, setFetchLoading] = useState(true);
   const [createLoading, setCreateLoading] = useState(false);
   const [loadingDeleteId, setLoadingDeleteId] = useState("");
+
+  // Hooks
   const setBroBuildsStateValue = useSetRecoilState(broBuildState);
 
+  // Getters
+  const getPostComments = async () => {
+    // Get all comments for a build from the DB, then order them chronologically
+    try {
+      const commentsQuery = query(
+        collection(firestore, "comments"),
+        where("broBuildId", "==", selectedPost?.id),
+        orderBy("createdAt", "desc")
+      );
+      const commentDocs = await getDocs(commentsQuery);
+      const comments = commentDocs.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      // Update client side state with new data from DB
+      setComments(comments as Comment[]);
+    } catch (error) {
+      console.log("getPostComments error:", error);
+    }
+
+    // Disable loading GUI
+    setFetchLoading(false);
+  };
+
+  // Modify Comments
   const onCreateComment = async (comment: string) => {
     try {
+      // Set UI loading view state
       setCreateLoading(true);
+
+      // Prepare a new transaction
       const batch = writeBatch(firestore);
 
+      // Get reference to comments table in DB
       const commentDocRef = doc(collection(firestore, "comments"));
 
+      // Prepare new comment data for DB
       const newComment: Comment = {
         id: commentDocRef.id,
         creatorId: user.uid,
@@ -61,19 +93,29 @@ const BuildComments: React.FC<BuildCommentsProps> = ({
         text: commentText,
         createdAt: serverTimestamp() as Timestamp,
       };
+
+      // Create new comment data for the transaction (not published yet)
       batch.set(commentDocRef, newComment);
+
+      // Server side timestamping wont work properly on client, need to set the value here
       newComment.createdAt = { seconds: Date.now() / 1000 } as Timestamp;
 
+      // Find the bro build that owns this comment and increment its comment count.
       const broBuildDocRef = doc(firestore, "brobuilds", selectedPost?.id!);
       batch.update(broBuildDocRef, {
         numberOfComments: increment(1),
       });
 
+      // Start the transaction and push to the DB!
       await batch.commit();
 
-      // update client side state after DB changes
+      // Clear user 'enter a comment' input field
       setCommentText("");
+
+      // Update comments feed below the post with the new comment
       setComments((prev) => [newComment, ...prev]);
+
+      // Update client side state after DB changes
       setBroBuildsStateValue((prev) => ({
         ...prev,
         selectedBroBuild: {
@@ -84,11 +126,13 @@ const BuildComments: React.FC<BuildCommentsProps> = ({
     } catch (error) {
       console.log("onCreateComment error: ", error);
     }
+    // Disable loading UI views
     setCreateLoading(false);
   };
   const onDeleteComment = async (comment: any) => {
     setLoadingDeleteId(comment.id);
     try {
+      // Setup new transaction
       const batch = writeBatch(firestore);
 
       // Delete comment
@@ -121,32 +165,14 @@ const BuildComments: React.FC<BuildCommentsProps> = ({
     setLoadingDeleteId("");
   };
 
-  const getPostComments = async () => {
-    try {
-      const commentsQuery = query(
-        collection(firestore, "comments"),
-        where("broBuildId", "==", selectedPost?.id),
-        orderBy("createdAt", "desc")
-      );
-      const commentDocs = await getDocs(commentsQuery);
-      const comments = commentDocs.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      setComments(comments as Comment[]);
-    } catch (error) {
-      console.log("getPostComments error:", error);
-    }
-
-    setFetchLoading(false);
-  };
-
+  // Effects
   useEffect(() => {
+    // Gets all posts from the DB when a user selects/views a new post.
     if (!selectedPost) return;
     getPostComments();
   }, [selectedPost]);
 
+  // JSX
   return (
     <Box mt={2} width={"40%"} bg="white" borderRadius={"0px 0px 4px 4px"} p={2}>
       <Flex

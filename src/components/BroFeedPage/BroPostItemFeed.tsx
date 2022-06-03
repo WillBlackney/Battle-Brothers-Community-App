@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { BroBuild } from "../../atoms/broBuildsAtom";
+import { Flex, Icon, Spinner, Stack, Text, Image } from "@chakra-ui/react";
+import moment from "moment";
+import { AiOutlineDelete } from "react-icons/ai";
+import { BsChat } from "react-icons/bs";
+import { useRouter } from "next/router";
 import {
   IoArrowDownCircleOutline,
   IoArrowDownCircleSharp,
@@ -8,12 +13,8 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
-import { Flex, Icon, Spinner, Stack, Text, Image } from "@chakra-ui/react";
-import moment from "moment";
-import { AiOutlineDelete } from "react-icons/ai";
-import { BsChat } from "react-icons/bs";
-import { useRouter } from "next/router";
 
+// Props
 type BroPostItemProps = {
   broBuild: BroBuild;
   userIsCreator: boolean;
@@ -35,9 +36,14 @@ const BroPostItemFeed: React.FC<BroPostItemProps> = ({
   onDelete,
   onSelect,
 }) => {
+  // State
   const [loadingDelete, setLoadingDelete] = useState(false);
+
+  // Setup
   const singlePostView = !onSelect;
   const router = useRouter();
+
+  // Logic
   const handleDelete = async (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -60,6 +66,8 @@ const BroPostItemFeed: React.FC<BroPostItemProps> = ({
       // setError
     }
   };
+
+  // JSX
   return (
     <Flex
       border="1px solid"
@@ -107,7 +115,7 @@ const BroPostItemFeed: React.FC<BroPostItemProps> = ({
           {broBuild.createdAt && (
             <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
               <Text color="gray.500">
-                Posted by u/{broBuild.userDisplayText}{" "} 
+                Posted by u/{broBuild.userDisplayText}{" "}
                 {moment(new Date(broBuild.createdAt.seconds * 1000)).fromNow()}
               </Text>
             </Stack>

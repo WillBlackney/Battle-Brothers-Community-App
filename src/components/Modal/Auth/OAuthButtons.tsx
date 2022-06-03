@@ -8,14 +8,18 @@ import { auth, firestore } from "../../../firebase/clientApp";
 type OAuthButtonsProps = {};
 
 const OAuthButtons: React.FC<OAuthButtonsProps> = () => {
+  // Hooks
   const [signInWithGoogle, userCred, loading, error] =
     useSignInWithGoogle(auth);
 
+  // Logic
   const createUserDocument = async (user: User) => {
+    // Create a new user in the DB
     const userDocRef = doc(firestore, "users", user.uid);
     await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
   };
 
+  // Effects
   useEffect(() => {
     if (userCred) {
       createUserDocument(userCred.user);

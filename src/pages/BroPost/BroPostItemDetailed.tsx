@@ -13,8 +13,8 @@ import moment from "moment";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsDot, BsChat } from "react-icons/bs";
 import router, { useRouter } from "next/router";
-import PerkIcon from "../../pages/PerkIcon";
-import AttributeRow from "../../pages/AttributeRow";
+import PerkIcon from "../PerkIcon";
+import AttributeRow from "../AttributeRow";
 import { getAttributeData } from "../../data controllers/AttributeDataController";
 
 type BroPostItemDetailedProps = {

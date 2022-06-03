@@ -13,15 +13,19 @@ type SignUpProps = {
 };
 
 const SignUp: React.FC<SignUpProps> = ({ toggleView }) => {
+  // State
+  const [formError, setFormError] = useState("");
   const [form, setForm] = useState({
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [formError, setFormError] = useState("");
+
+  // Hooks
   const [createUserWithEmailAndPassword, userCred, loading, authError] =
     useCreateUserWithEmailAndPassword(auth);
 
+  // Input Events
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (formError) setFormError("");
@@ -36,7 +40,6 @@ const SignUp: React.FC<SignUpProps> = ({ toggleView }) => {
     // Valid form inputs
     createUserWithEmailAndPassword(form.email, form.password);
   };
-
   const onChange = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +49,7 @@ const SignUp: React.FC<SignUpProps> = ({ toggleView }) => {
     }));
   };
 
+  // Logic
   const createUserDocument = async (user: User) => {
     await addDoc(
       collection(firestore, "users"),
@@ -53,12 +57,14 @@ const SignUp: React.FC<SignUpProps> = ({ toggleView }) => {
     );
   };
 
+  // Effects
   useEffect(() => {
     if (userCred) {
       createUserDocument(userCred.user);
     }
   }, [userCred]);
 
+  // JSX
   return (
     <form onSubmit={onSubmit}>
       <InputItem

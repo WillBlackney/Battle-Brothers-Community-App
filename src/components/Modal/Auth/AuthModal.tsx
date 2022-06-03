@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
 import {
   Flex,
-  Modal,
   ModalBody,
   ModalCloseButton,
-  ModalContent,
   ModalHeader,
-  ModalOverlay,
 } from "@chakra-ui/react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { authModalState } from "../../../atoms/AuthModalAtom";
-import { userState } from "../../../atoms/userAtom";
+import { authModalState } from "../../../atoms/authModalAtom";
 import { auth } from "../../../firebase/clientApp";
 import AuthInputs from "./Inputs";
 import OAuthButtons from "./OAuthButtons";
@@ -21,20 +17,16 @@ import ModalWrapper from "../ModalWrapper";
 type AuthModalProps = {};
 
 const AuthModal: React.FC<AuthModalProps> = () => {
+  // State
   const [modalState, setModalState] = useRecoilState(authModalState);
+  const [user] = useAuthState(auth);
+
+  // Logic
   const handleClose = () =>
     setModalState((prev) => ({
       ...prev,
       open: false,
     }));
-
-  const currentUser = useRecoilValue(userState);
-  const [user, error] = useAuthState(auth);
-
-  // Can implement at the end
-  // useEffect(() => {
-  //   if (currentUser) handleClose();
-  // }, [currentUser]);
   const toggleView = (view: string) => {
     setModalState({
       ...modalState,
@@ -42,10 +34,13 @@ const AuthModal: React.FC<AuthModalProps> = () => {
     });
   };
 
+  // Effects
   useEffect(() => {
+    // Close the modal if a user is already logged in
     if (user) handleClose();
   }, [user]);
 
+  // JSX
   return (
     <ModalWrapper isOpen={modalState.open} onClose={handleClose}>
       <ModalHeader display="flex" flexDirection="column" alignItems="center">

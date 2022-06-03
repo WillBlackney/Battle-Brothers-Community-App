@@ -3,6 +3,7 @@ import { atom } from "recoil";
 import { PerkData } from "../data controllers/PerkDataController";
 
 export interface BroBuild {
+  // Core data
   id: string;
   buildName: string;
   description: string;
@@ -15,7 +16,6 @@ export interface BroBuild {
     id: string;
     voteValue: number;
   };
-  // to do: perks, stats, etc etc
   perks: PerkData[];
 
   // Stats

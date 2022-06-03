@@ -1,12 +1,9 @@
 import React from "react";
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Flex, Image, Text } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useSetRecoilState } from "recoil";
-
 import { auth } from "../../firebase/clientApp";
 import NavbarRightContent from "./RightContent/NavbarRightContent";
-import router from "next/router";
 import BroSearchTab from "./BroSearchTab";
 import CreateBroTab from "./CreateBroTab";
 import Router from "next/router";

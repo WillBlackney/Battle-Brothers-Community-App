@@ -3,9 +3,9 @@ import { Stack } from "@chakra-ui/react";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import type { NextPage } from "next";
 import PageContentLayout from "../components/Layout/PageContent";
-import PostLoader from "../components/Post/Loader";
+import PostLoader from "./BroPost/Loader";
 import { firestore } from "../firebase/clientApp";
-import BroPostFeedContainer from "../components/Community/BroPostFeedContainer";
+import BroPostFeedContainer from "../components/BroFeedPage/BroPostFeedContainer";
 
 const Home: NextPage = () => {
   // NEW

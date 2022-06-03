@@ -1,4 +1,4 @@
-import { FormControl, Input } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import React from "react";
 
 type InputFieldProps = {
@@ -13,7 +13,6 @@ const InputField: React.FC<InputFieldProps> = ({
   name,
   placeholder,
   type,
-  isRequired, // not sure if will need this
   mb,
 }) => {
   return (

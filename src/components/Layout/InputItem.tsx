@@ -1,4 +1,4 @@
-import { FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import React from "react";
 
 type InputItemProps = {

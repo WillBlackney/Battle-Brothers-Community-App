@@ -3,7 +3,6 @@ import { Flex, Icon, MenuDivider, MenuItem } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineLogin } from "react-icons/md";
-import { useResetRecoilState } from "recoil";
 import { auth } from "../../../../firebase/clientApp";
 
 type UserListProps = {};
