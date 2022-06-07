@@ -10,7 +10,8 @@ type AuthInputsProps = {
 };
 
 const AuthInputs: React.FC<AuthInputsProps> = ({ toggleView }) => {
-  // State
+  
+  // Get global auth state from recoil
   const modalState = useRecoilValue(authModalState);
 
   // JSX

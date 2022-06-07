@@ -15,35 +15,6 @@ const BroPostFeedContainer: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [user] = useAuthState(auth);
 
-  // Hooks
-  const {
-    broBuildsStateValue,
-    setBroBuildsStateValue,
-    onVoteBroBuild,
-    onSelectBroBuild,
-    onDeleteBroBuild,
-  } = useBroBuilds();
-
-  // Getters
-  const getBroBuildPosts = async () => {
-    // Get bro builds data from DB
-    try {
-      const postQuery = query(collection(firestore, "brobuilds"));
-      const postDocs = await getDocs(postQuery);
-      const posts = postDocs.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      // Update client side global state with newly fetched data
-      setBroBuildsStateValue((prev) => ({
-        ...prev,
-        allBroBuilds: posts as BroBuild[],
-      }));
-    } catch (error: any) {
-      console.log("getBroBuildPosts error: ", error.message);
-    }
-  };
   const filteredBuilds = (): BroBuild[] => {
     // Filter by search term
     let builds = broBuildsStateValue.allBroBuilds.filter((build) =>
@@ -73,6 +44,44 @@ const BroPostFeedContainer: React.FC = () => {
     return builds;
   };
 
+  // Hooks
+  const {
+    broBuildsStateValue,
+    setBroBuildsStateValue,
+    onVoteBroBuild,
+    onSelectBroBuild,
+    onDeleteBroBuild,
+  } = useBroBuilds();
+
+  // Getters
+  const getBroBuildPosts = async () => {
+    // Get bro builds data from DB
+    try {
+      const postQuery = query(collection(firestore, "brobuilds"));
+      const postDocs = await getDocs(postQuery);
+      const posts = postDocs.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      // Update client side global state with newly fetched data
+      setBroBuildsStateValue((prev) => ({
+        ...prev,
+        allBroBuilds: posts as BroBuild[],
+      }));
+    } catch (error: any) {
+      console.log("getBroBuildPosts error: ", error.message);
+    }
+  };
+
+   // Effects
+   useEffect(() => {
+    // Fetch data from DB on initial page load
+    getBroBuildPosts();
+  }, []);
+
+  
+
   // Input Events
   const onSearchTermInputChanged = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -95,11 +104,7 @@ const BroPostFeedContainer: React.FC = () => {
     return;
   };
 
-  // Effects
-  useEffect(() => {
-    // Fetch data from DB on initial page load
-    getBroBuildPosts();
-  }, []);
+ 
 
   // JSX
   return (

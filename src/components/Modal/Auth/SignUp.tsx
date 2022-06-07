@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { ModalView } from "../../../atoms/authModalAtom";
+import { ModalView } from "../../../atoms/AuthModalAtom";
 import { auth, firestore } from "../../../firebase/clientApp";
 import { FIREBASE_ERRORS } from "../../../firebase/errors";
 import InputItem from "../../Layout/InputItem";
@@ -28,11 +28,14 @@ const SignUp: React.FC<SignUpProps> = ({ toggleView }) => {
   // Input Events
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    // Validate email
     if (formError) setFormError("");
     if (!form.email.includes("@")) {
       return setFormError("Please enter a valid email");
     }
 
+    // Validate Password
     if (form.password !== form.confirmPassword) {
       return setFormError("Passwords do not match");
     }
@@ -40,6 +43,7 @@ const SignUp: React.FC<SignUpProps> = ({ toggleView }) => {
     // Valid form inputs
     createUserWithEmailAndPassword(form.email, form.password);
   };
+
   const onChange = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +53,7 @@ const SignUp: React.FC<SignUpProps> = ({ toggleView }) => {
     }));
   };
 
-  // Logic
+  // Create a user in the database
   const createUserDocument = async (user: User) => {
     await addDoc(
       collection(firestore, "users"),

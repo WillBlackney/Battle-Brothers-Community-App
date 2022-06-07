@@ -61,7 +61,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
     }
   };
 
-  // Publish
+  // Publish the build to the DB!
   const handlePublishBroBuild = async () => {
     // validate build name
     const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
@@ -73,12 +73,13 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
     setError("");
 
     try {
+      // Generate unique ID for the build
       const uniqueId = uuidv4();
       console.log("unique id generated: ", uniqueId);
       const broBuildsDocRef = doc(firestore, "brobuilds", uniqueId);
 
       await runTransaction(firestore, async (transaction) => {
-        // publish the bro to database
+        // Publish the bro to database
         transaction.set(broBuildsDocRef, {
           creatorId: user?.uid,
           createdAt: serverTimestamp(),
@@ -89,8 +90,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           voteStatus: 0,
           description: description,
 
-          // to do: perks/stats, etc
-          // attributes
+          // Attributes
           health: health,
           fatigue: fatigue,
           resolve: resolve,
@@ -115,6 +115,7 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
       setError(error.message);
     }
 
+    // Route user back to the home page after succesful publish
     setLoading(false);
     if (error == "" && router) router.back();
   };

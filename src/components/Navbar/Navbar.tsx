@@ -24,7 +24,12 @@ const Navbar: React.FC = () => {
         mr={{ base: 0, md: 2 }}
         cursor="pointer"
       >
-        <Image src="/images/battle_brothers_logo_1.png" height="30px" mr={4} />
+        <Image
+          src="/images/battle_brothers_logo_1.png"
+          height="30px"
+          mr={4}
+          alt=""
+        />
         <Text fontWeight="600" mr={20} onClick={() => Router.push("/")}>
           Battle Brothers Tavern
         </Text>

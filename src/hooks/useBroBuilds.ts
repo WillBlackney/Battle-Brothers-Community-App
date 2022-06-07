@@ -34,6 +34,7 @@ const useBroBuilds = () => {
       setAuthModalState({ open: true, view: "login" });
       return;
     }
+    
     try {
       const { voteStatus } = broBuild;
       const existingVote = broBuildsStateValue.postVotes.find(
@@ -112,15 +113,6 @@ const useBroBuilds = () => {
         allBroBuilds: updatedBroBuilds,
         postVotes: updatedBroBuildVotes,
       }));
-
-      /*
-      if (broBuildsStateValue.selectedBroBuild) {
-        setBroBuildsStateValue((prev) => ({
-          ...prev,
-          selectedBroBuild: updatedBroBuild,
-        }));
-      }
-      */
 
       const postRef = doc(firestore, "brobuilds", broBuild.id!);
       batch.update(postRef, { voteStatus: voteStatus + voteChange });
