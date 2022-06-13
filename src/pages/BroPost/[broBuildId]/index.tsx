@@ -24,6 +24,7 @@ const BroPostPage: React.FC<BroPostPageProps> = () => {
   } = useBroBuilds();
   const router = useRouter();
 
+  // Get fresh character data from DB, then update client side state
   const fetchBroBuild = async (broBuildId: string) => {
     try {
       const broBuildsDocRef = doc(firestore, "brobuilds", broBuildId);
@@ -39,12 +40,16 @@ const BroPostPage: React.FC<BroPostPageProps> = () => {
       console.log("fetchBroBuild() error: ", error);
     }
   };
+
+  // On page first load, get fresh build data from DB
   useEffect(() => {
     const { broBuildId } = router.query;
     if (broBuildId && !broBuildsStateValue.selectedBroBuild) {
       fetchBroBuild(broBuildId as string);
     }
   }, [router.query, broBuildsStateValue.selectedBroBuild]);
+
+  // JSX View
   return (
     <Flex
       align="center"

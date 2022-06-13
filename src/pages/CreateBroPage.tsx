@@ -10,6 +10,7 @@ import PerkIcon from "./PerkIcon";
 import { AllPerkData, PerkData } from "../data controllers/PerkDataController";
 import PageContentLayout from "../components/Layout/PageContent";
 import { useRouter } from "next/router";
+import ItemSlot from "./BroPost/ItemSlot";
 
 type CreateBroPageProps = {};
 
@@ -348,14 +349,56 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
           </Flex>
           {/*Items */}
           <Flex
-            align="center"
+            align="top"
             bg="white"
             borderRadius={4}
             width="30%"
             height="90%"
             justify="center"
+            direction="column"
           >
-            Items
+            {/*Top Row */}
+            <Flex
+              width="100%"
+              height="33.3%"
+              borderColor="red"
+              borderWidth="2px"
+              justifyContent="center"
+              align="center"
+            >
+              <ItemSlot height="75px" width="75px" slotType="Trinket" />
+              <ItemSlot height="75px" width="75px" slotType="Head" />
+              <ItemSlot height="75px" width="75px" />
+            </Flex>
+
+            {/* Middle Row */}
+            <Flex
+              width="100%"
+              height="33.3%"
+              borderColor="red"
+              borderWidth="2px"
+              justifyContent="center"
+              align="center"
+            >
+              <ItemSlot height="75px" width="75px" />
+              <ItemSlot height="75px" width="75px" />
+              <ItemSlot height="75px" width="75px" />
+            </Flex>
+
+            {/* Bottom Row */}
+            <Flex
+              width="100%"
+              height="33.3%"
+              borderColor="red"
+              borderWidth="2px"
+              justifyContent="center"
+              align="center"
+            >
+              <ItemSlot height="75px" width="75px" />
+              <ItemSlot height="75px" width="75px" />
+              <ItemSlot height="75px" width="75px" />
+              <ItemSlot height="75px" width="75px" />
+            </Flex>
           </Flex>
           {/*Stats*/}
           {/*Colums + Header Text Fitter*/}
