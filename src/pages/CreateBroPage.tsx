@@ -368,7 +368,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
             >
               <ItemSlot height="75px" width="75px" slotType="Trinket" />
               <ItemSlot height="75px" width="75px" slotType="Head" />
-              <ItemSlot height="75px" width="75px" />
             </Flex>
 
             {/* Middle Row */}
@@ -380,9 +379,9 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               justifyContent="center"
               align="center"
             >
-              <ItemSlot height="75px" width="75px" />
-              <ItemSlot height="75px" width="75px" />
-              <ItemSlot height="75px" width="75px" />
+              <ItemSlot height="75px" width="37.5px" slotType="MainHand" />
+              <ItemSlot height="75px" width="75px" slotType="Chest" />
+              <ItemSlot height="75px" width="37.5px" slotType="OffHand" />
             </Flex>
 
             {/* Bottom Row */}
@@ -394,10 +393,10 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
               justifyContent="center"
               align="center"
             >
-              <ItemSlot height="75px" width="75px" />
-              <ItemSlot height="75px" width="75px" />
-              <ItemSlot height="75px" width="75px" />
-              <ItemSlot height="75px" width="75px" />
+              <ItemSlot height="75px" width="75px" slotType="Inventory" />
+              <ItemSlot height="75px" width="75px" slotType="Inventory" />
+              <ItemSlot height="75px" width="75px" slotType="Inventory" />
+              <ItemSlot height="75px" width="75px" slotType="Inventory" />
             </Flex>
           </Flex>
           {/*Stats*/}
