@@ -66,8 +66,9 @@ const PerkIcon: React.FC<PerkIconProps> = ({
       <Popover trigger="hover" closeDelay={0}>
         <PopoverTrigger>
           <Image
+            alt=""
             align={"center"}
-            cursor={!viewBroPage && "pointer"}
+            cursor={!viewBroPage ? "pointer" : "unset"}
             onClick={mouseClick}
             onMouseEnter={mouseEnter}
             onMouseLeave={mouseExit}
