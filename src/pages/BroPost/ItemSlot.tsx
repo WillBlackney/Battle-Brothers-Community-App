@@ -56,6 +56,7 @@ const ItemSlot: React.FC<ItemSlotProps> = ({ height, width, slotType }) => {
       <Popover trigger="click" closeDelay={0}>
         <PopoverTrigger>
           <Image
+            alt=""
             src={item ? item.itemIconImage : getImgSrc()}
             width="80px"
             height="80px"
@@ -75,10 +76,11 @@ const ItemSlot: React.FC<ItemSlotProps> = ({ height, width, slotType }) => {
                 align={"center"}
                 onClick={clearItem}
               >
-                <Text>"Empty"</Text>
+                <Text>Empty</Text>
               </Flex>
               {AllItemData.map((item) => (
                 <ItemSelectTab
+                  key={item.itemName}
                   itemData={item}
                   onTabClicked={onItemRowClicked}
                 ></ItemSelectTab>
