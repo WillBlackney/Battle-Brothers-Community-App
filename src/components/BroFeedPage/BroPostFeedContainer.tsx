@@ -74,13 +74,11 @@ const BroPostFeedContainer: React.FC = () => {
     }
   };
 
-   // Effects
-   useEffect(() => {
+  // Effects
+  useEffect(() => {
     // Fetch data from DB on initial page load
     getBroBuildPosts();
   }, []);
-
-  
 
   // Input Events
   const onSearchTermInputChanged = (
@@ -103,8 +101,6 @@ const BroPostFeedContainer: React.FC = () => {
     setFilterCondition("popularRecent");
     return;
   };
-
- 
 
   // JSX
   return (

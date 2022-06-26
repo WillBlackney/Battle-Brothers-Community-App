@@ -88,7 +88,7 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
           onClick={(event) => onVote(event, broBuild, 1)}
         />
         <Text fontSize="9pt" fontWeight={600}>
-          {broBuild.voteStatus}
+          {broBuild?.voteStatus}
         </Text>
         <Icon
           as={
@@ -106,18 +106,18 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
       <Flex direction="column" width="80%">
         {/* Poster, Build Name + Description Section */}
         <Stack spacing={1} p="10px 10px">
-          {broBuild.createdAt && (
+          {broBuild?.createdAt && (
             <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
               <Text color="gray.500">
-                Posted by u/{broBuild.userDisplayText}{" "}
-                {moment(new Date(broBuild.createdAt.seconds * 1000)).fromNow()}
+                Posted by u/{broBuild?.userDisplayText}{" "}
+                {moment(new Date(broBuild?.createdAt.seconds * 1000)).fromNow()}
               </Text>
             </Stack>
           )}
           <Text fontSize="12pt" fontWeight={600}>
-            {broBuild.buildName}
+            {broBuild?.buildName}
           </Text>
-          <Text fontSize="10pt">{broBuild.description}</Text>
+          <Text fontSize="10pt">{broBuild?.description}</Text>
         </Stack>
         {/* Attributes + Perks Wrapper*/}
         <Flex height={"100%"} align="center" justify={"space-evenly"}>
@@ -132,7 +132,7 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
           >
             <Text fontWeight={600}> Perks</Text>
             <Flex height={"50px"} m={2}>
-              {broBuild.perks?.slice(0, 3).map((perk) => (
+              {broBuild?.perks?.slice(0, 3).map((perk) => (
                 <PerkIcon
                   key={perk.perkName}
                   perkData={perk}
@@ -141,7 +141,7 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
               ))}
             </Flex>
             <Flex height={"50px"} m={2}>
-              {broBuild.perks?.slice(3, 6).map((perk) => (
+              {broBuild?.perks?.slice(3, 6).map((perk) => (
                 <PerkIcon
                   key={perk.perkName}
                   perkData={perk}
@@ -150,7 +150,7 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
               ))}
             </Flex>
             <Flex height={"50px"} m={2}>
-              {broBuild.perks?.slice(6, 11).map((perk) => (
+              {broBuild?.perks?.slice(6, 11).map((perk) => (
                 <PerkIcon
                   key={perk.perkName}
                   perkData={perk}
@@ -191,22 +191,22 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
                 direction="column"
               >
                 <AttributeRow
-                  initialStatValue={broBuild.health}
+                  initialStatValue={broBuild?.health}
                   attributeData={getAttributeData("Health")}
                   viewBroPage={true}
                 ></AttributeRow>
                 <AttributeRow
-                  initialStatValue={broBuild.fatigue}
+                  initialStatValue={broBuild?.fatigue}
                   attributeData={getAttributeData("Fatigue")}
                   viewBroPage={true}
                 ></AttributeRow>
                 <AttributeRow
-                  initialStatValue={broBuild.resolve}
+                  initialStatValue={broBuild?.resolve}
                   attributeData={getAttributeData("Resolve")}
                   viewBroPage={true}
                 ></AttributeRow>
                 <AttributeRow
-                  initialStatValue={broBuild.initiative}
+                  initialStatValue={broBuild?.initiative}
                   attributeData={getAttributeData("Initiative")}
                   viewBroPage={true}
                 ></AttributeRow>
@@ -223,22 +223,22 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
                 flex={"start"}
               >
                 <AttributeRow
-                  initialStatValue={broBuild.meleeAttack}
+                  initialStatValue={broBuild?.meleeAttack}
                   attributeData={getAttributeData("Melee Attack")}
                   viewBroPage={true}
                 ></AttributeRow>
                 <AttributeRow
-                  initialStatValue={broBuild.rangedAttack}
+                  initialStatValue={broBuild?.rangedAttack}
                   attributeData={getAttributeData("Ranged Attack")}
                   viewBroPage={true}
                 ></AttributeRow>
                 <AttributeRow
-                  initialStatValue={broBuild.meleeDefence}
+                  initialStatValue={broBuild?.meleeDefence}
                   attributeData={getAttributeData("Melee Defence")}
                   viewBroPage={true}
                 ></AttributeRow>
                 <AttributeRow
-                  initialStatValue={broBuild.rangedDefence}
+                  initialStatValue={broBuild?.rangedDefence}
                   attributeData={getAttributeData("Ranged Defence")}
                   viewBroPage={true}
                 ></AttributeRow>
@@ -256,7 +256,7 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
             cursor="pointer"
           >
             <Icon as={BsChat} mr={2} />
-            <Text fontSize="9pt">{broBuild.numberOfComments}</Text>
+            <Text fontSize="9pt">{broBuild?.numberOfComments}</Text>
           </Flex>
           <Flex
             align="center"
@@ -301,7 +301,7 @@ const BroPostItemDetailed: React.FC<BroPostItemDetailedProps> = ({
       </Flex>
       {/* Avatar Section Right */}
       <Flex width="20%" align="center" justify="center" bg="gray.100">
-        <Image src={"/images/bro_avatar_1.png"} width="80%"></Image>
+        <Image alt="" src={"/images/bro_avatar_1.png"} width="80%"></Image>
       </Flex>
     </Flex>
   );
