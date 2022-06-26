@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { authModalState, ModalView } from "../../../atoms/authModalAtom";
+import { authModalState, ModalView } from "../../../atoms/AuthModalAtom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 
@@ -10,7 +10,6 @@ type AuthInputsProps = {
 };
 
 const AuthInputs: React.FC<AuthInputsProps> = ({ toggleView }) => {
-  
   // Get global auth state from recoil
   const modalState = useRecoilValue(authModalState);
 

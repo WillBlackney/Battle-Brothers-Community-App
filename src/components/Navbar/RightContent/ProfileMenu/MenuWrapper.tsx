@@ -2,7 +2,7 @@ import React from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
-import { authModalState } from "../../../../atoms/authModalAtom";
+import { authModalState } from "../../../../atoms/AuthModalAtom";
 import { auth } from "../../../../firebase/clientApp";
 import NoUserList from "./NoUserList";
 import UserList from "./UserList";

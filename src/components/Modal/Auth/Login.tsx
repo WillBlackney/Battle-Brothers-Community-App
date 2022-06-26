@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { ModalView } from "../../../atoms/authModalAtom";
+import { ModalView } from "../../../atoms/AuthModalAtom";
 import { auth } from "../../../firebase/clientApp";
 import { FIREBASE_ERRORS } from "../../../firebase/errors";
 import InputItem from "../../Layout/InputItem";
