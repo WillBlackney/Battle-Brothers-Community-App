@@ -361,7 +361,6 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
             <Flex
               width="100%"
               height="33.3%"
-              borderColor="red"
               borderWidth="2px"
               justifyContent="center"
               align="center"
@@ -374,21 +373,19 @@ const CreateBroPage: React.FC<CreateBroPageProps> = () => {
             <Flex
               width="100%"
               height="33.3%"
-              borderColor="red"
               borderWidth="2px"
               justifyContent="center"
               align="center"
             >
-              <ItemSlot height="75px" width="37.5px" slotType="MainHand" />
+              <ItemSlot height="75px" width="75px" slotType="MainHand" />
               <ItemSlot height="75px" width="75px" slotType="Chest" />
-              <ItemSlot height="75px" width="37.5px" slotType="OffHand" />
+              <ItemSlot height="75px" width="75px" slotType="OffHand" />
             </Flex>
 
             {/* Bottom Row */}
             <Flex
               width="100%"
               height="33.3%"
-              borderColor="red"
               borderWidth="2px"
               justifyContent="center"
               align="center"

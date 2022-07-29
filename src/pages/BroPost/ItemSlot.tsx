@@ -47,7 +47,7 @@ const ItemSlot: React.FC<ItemSlotProps> = ({ height, width, slotType }) => {
     <Flex
       height={height}
       width={width}
-      borderColor="blue"
+      borderColor="grey"
       borderWidth="1px"
       align="center"
       justify="center"
